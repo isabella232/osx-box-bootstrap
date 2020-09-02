@@ -200,6 +200,9 @@ Once installed:
     add the Terminal and the Script Runner apps to `System Preferences - Security and Privacy - Accessability`
     also run the machine-setup/playbook.yml on the machine to enable access to system events
     you will need to run this from your dev machine, because the setting needs manual interaction, so the automation would time out.
+    
+* Add SSH key to authorized keys
+* Add `vagrant` user as passwordless sudoer
 
 ## Provisioning
 
