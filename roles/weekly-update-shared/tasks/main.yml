@@ -84,6 +84,7 @@
   homebrew:
     name: "{{ item.name }}"
     state: present
+    update_homebrew: true
   with_items:
     - "{{ brew_packages }}"
 
