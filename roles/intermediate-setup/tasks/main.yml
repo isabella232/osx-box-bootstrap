@@ -138,6 +138,9 @@
     name: python@3
     state: present
 
+- name: Check pip installs
+  shell: bash -l -c "pip3 install requests"
+
 # Switch to Xcode stable, the default Xcode for building
 - name: Switch to Xcode stable, the default Xcode for building
   shell: bash -l -c "xcode-select --switch {{ xcode_path }}"

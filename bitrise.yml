@@ -133,6 +133,9 @@ workflows:
             test_android
             test_ssh-setup
             test_flutter
+            test_go
+            test_bitrise-cli
+            test_remote-access
         - access_token: $BITRISE_ACCESS_TOKEN
 
   perform-weekly-cache-update:
@@ -226,6 +229,24 @@ workflows:
   test_flutter:
     envs:
     - ROLE: "flutter"
+    after_run:
+    - _run_molecule_test
+
+  test_bitrise-cli:
+    envs:
+    - ROLE: "bitrise-cli"
+    after_run:
+    - _run_molecule_test
+
+  test_go:
+    envs:
+    - ROLE: "go"
+    after_run:
+    - _run_molecule_test
+
+  test_remote-access:
+    envs:
+    - ROLE: "remote-access"
     after_run:
     - _run_molecule_test
 

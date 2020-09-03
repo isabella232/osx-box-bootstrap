@@ -1,0 +1,50 @@
+---
+
+# ----------------------------------------
+# --- remote access script install ---
+# ----------------------------------------
+- name: "Ensure /opt/bitrise exists"
+  file:
+    path: /opt/bitrise
+    state: directory  # yamllint disable-line rule:truthy
+    owner: "{{ param_user }}"
+    group: wheel
+    mode: "0755"
+  become: true
+
+- name: "Ensure /etc/ngrok exists"
+  file:
+    path: /etc/ngrok
+    state: directory
+    owner: root
+    group: wheel
+    mode: "0755"
+  become: true
+
+- name: "copy remote access config script"
+  copy:
+    src: files/bootstrap_remote_access.sh.tmpl
+    dest: /opt/bitrise/bootstrap_remote_access.sh.tmpl
+    owner: "{{ param_user }}"
+    mode: "0777"
+
+# ----------------------------------------
+# --- ngrok install ---
+# ----------------------------------------
+- name: "ngrok-binary: download"
+  get_url:
+    url: https://bin.equinox.io/c/gDfFGFRN2Jh/ngrok-link-stable-darwin-amd64.zip
+    dest: /tmp/ngrok-link-stable-darwin-amd64.zip
+- name: "ngrok-binary: install"
+  unarchive:
+    src: /tmp/ngrok-link-stable-darwin-amd64.zip
+    dest: /usr/local/bin
+    owner: "{{ param_user }}"
+    copy: false
+    mode: 0700
+  become: true
+- name: "ngrok-binary: remove temp file"
+  file:
+    path: /tmp/ngrok-link-stable-darwin-amd64.zip
+    state: absent
+...

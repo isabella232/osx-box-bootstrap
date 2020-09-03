@@ -12,11 +12,20 @@
     scope: global
     value: "please-set-your-email@bitrise.io"
 
+- name: Ensure /Library/LaunchDaemons/ exists
+  file:
+    path: /Library/LaunchDaemons/
+    state: directory
+    owner: root
+    group: wheel
+    mode: "0644"
+  become: true
+
 # Copy these two plist file to incrase Open File Descriptos
 - name: "Setup open-file limit"
   copy:
     src: limit.maxfiles.plist
-    dest: /Library/LaunchDaemons/imit.maxfiles.plist
+    dest: /Library/LaunchDaemons/limit.maxfiles.plist
     owner: root
     group: wheel
     mode: "0644"
@@ -25,152 +34,58 @@
 - name: "Setup max-process limit"
   copy:
     src: limit.maxproc.plist
-    dest: /Library/LaunchDaemons/imit.maxproc.plist
+    dest: /Library/LaunchDaemons/limit.maxproc.plist
     owner: root
     group: wheel
     mode: "0644"
   become: true
 
-## Go
-# Gopath is $HOME/go
-- name: brew install go
-  homebrew:
-    name: go
-    state: present
-- name: prepare GOPATH dirs
-  file:
-    path: "/Users/{{ param_user }}/go/{{ item.fold_path }}"
-    state: directory
-    owner: "{{ param_user }}"
-  with_items:
-    - { fold_path: 'src' }
-    - { fold_path: 'bin' }
-    - { fold_path: 'pkg' }
-
-# ----------------------------------------
-# --- remote access script install ---
-# ----------------------------------------
-- name: "Ensure /opt/bitrise exists"
-  file:
-    path: /opt/bitrise
-    state: directory
-    owner: vagrant
-    group: wheel
-    mode: "0755"
-  become: true
-
-- name: "Ensure /etc/ngrok exists"
-  file:
-    path: /etc/ngrok
-    state: directory
-    owner: root
-    group: wheel
-    mode: "0755"
-  become: true
-
-- name: "copy remote access config script"
-  copy:
-    src: files/bootstrap_remote_access.sh.tmpl
-    dest: /opt/bitrise/bootstrap_remote_access.sh.tmpl
-    owner: vagrant
-    mode: "0777"
-
-# ----------------------------------------
-# --- ngrok install ---
-# ----------------------------------------
-- name: "ngrok-binary: download"
-  get_url:
-    url: https://bin.equinox.io/c/gDfFGFRN2Jh/ngrok-link-stable-darwin-amd64.zip
-    dest: /tmp/ngrok-link-stable-darwin-amd64.zip
-- name: "ngrok-binary: install"
-  unarchive:
-    src: /tmp/ngrok-link-stable-darwin-amd64.zip
-    dest: /usr/local/bin
-    copy: false
-    mode: 0700
-- name: "ngrok-binary: remove temp file"
-  file:
-    path: /tmp/ngrok-link-stable-darwin-amd64.zip
-    state: absent
 # ----------------------------------------
 # --- pre-installed tool cache updates ---
 # ----------------------------------------
-
-- name: "brew update"
-  shell: bash -l -c "brew update"
-  register: result
-  until: result.rc == 0
-  retries: 3
-- name: brew install screen (for older images)
-  homebrew:
-    name: screen
-    state: present
-
-- name: Check pip installs
-  shell: bash -l -c "pip3 install requests"
 
 - name: "CocoaPods: pod setup"
   shell: bash -l -c "pod setup || pod setup"
 - name: "CocoaPods: pod repo update"
   shell: bash -l -c "pod repo update"
 
-# ----------------------------------------
-# --- applesimutils install ---
-# ----------------------------------------
-
-- name: "Set up wix/brew"
-  homebrew_tap:
-    name: wix/brew
-    state: present
-- name: "Install applesimutils"
-  homebrew:
-    name: applesimutils
-    state: present
-
-# ----------------------------------------
-# --- Bitrise CLI tools ---
-# ----------------------------------------
-# bitrise CLI: cleanup previous tool versions
-- name: clean up previous 'bitrise'
-  file:
-    path: /usr/local/bin/bitrise
-    state: absent
-
-- name: clean up previous 'stepman'
-  file:
-    path: /usr/local/bin/stepman
-    state: absent
-
-- name: clean up previous 'envman'
-  file:
-    path: /usr/local/bin/envman
-    state: absent
-
-- name: "bitrise CLI: download"
-  get_url:
-    url: https://github.com/bitrise-io/bitrise/releases/download/{{ bitrise_cli_version }}/bitrise-Darwin-x86_64
-    dest: /usr/local/bin/bitrise
-    mode: '0755'
-- name: "Bitrise CLI test -version"
-  shell: bash -l -c "bitrise --version"
-- name: "Bitrise CLI - setup"
-  shell: bash -l -c "bitrise setup"
-- name: "Bitrise CLI - envman -version"
-  shell: bash -l -c "/Users/vagrant/.bitrise/tools/envman -version"
-- name: "Bitrise CLI - stepman -version"
-  shell: bash -l -c "/Users/vagrant/.bitrise/tools/stepman -version"
-# setup the default StepLib collection to stepman, for a pre-warmed
-#  cache for the StepLib
-- name: "stepman: init"
-  shell: bash -l -c "/Users/vagrant/.bitrise/tools/stepman setup -c https://github.com/bitrise-io/bitrise-steplib.git"
-- name: "stepman: update"
-  shell: bash -l -c "/Users/vagrant/.bitrise/tools/stepman update"
-
 # curl used in place of get_url or uri module
 # Shells that use pipes should set the pipefail option
 - name: "firebase (CLI)"  # noqa 303 306
   shell: bash -l -c "curl -sL firebase.tools | bash"
 
+# ---------------------------------
+# --- Community requested tools ---
+# ---------------------------------
+
+# Gems
+- name: Install additional gems
+  gem:
+    name: "{{ item.name }}"
+    version: "{{ item.version }}"
+    executable: "$HOME/.rbenv/shims/gem"
+    user_install: false
+  with_items:
+    - "{{ gem_packages }}"
+
+# brew taps
+- name: brew tap xcbeautify
+  homebrew_tap:
+    name: thii/xcbeautify
+    url: 'https://github.com/thii/xcbeautify.git'
+
+- name: "Set up wix/brew"
+  homebrew_tap:
+    name: wix/brew
+    state: present
+
+# Kegs
+- name: Install additional brew kegs
+  homebrew:
+    name: "{{ item.name }}"
+    state: present
+  with_items:
+    - "{{ brew_packages }}"
 
 # ----------------------------------------
 # --- Cleanup ---
@@ -184,7 +99,7 @@
 #     Xcode stores the simulator installers here, and it never cleans them up for some reason.
 - name: Remove tmp and test dirs inside the HOME directory
   file:
-    path: "/Users/{{ param_user }}/{{ item.fold_path }}"
+    path: "$HOME/{{ item.fold_path }}"
     state: absent
   with_items:
     - { fold_path: 'Library/Developer/Xcode/DerivedData' }

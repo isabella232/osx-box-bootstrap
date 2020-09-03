@@ -1,0 +1,19 @@
+---
+## Go
+# Gopath is $HOME/go
+- name: brew install go
+  homebrew:
+    name: go
+    state: present
+    update_homebrew: true
+
+- name: prepare GOPATH dirs
+  file:
+    path: "$HOME/go/{{ item.fold_path }}"
+    state: directory
+    owner: "{{ param_user }}"
+  with_items:
+    - { fold_path: 'src' }
+    - { fold_path: 'bin' }
+    - { fold_path: 'pkg' }
+...

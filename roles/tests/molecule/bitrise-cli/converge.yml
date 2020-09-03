@@ -1,0 +1,6 @@
+---
+- name: Converge
+  hosts: all
+  roles:
+    - role: bitrise-cli
+      param_user: "linuxbrew"

@@ -1,0 +1,15 @@
+---
+gem_packages:
+  - name: "xcpretty-json-formatter"
+    version: "0.1.1"
+  - name: "trainer"
+    version: "0.9.1"
+  - name: "slather"
+    version: "2.5.0"
+brew_packages:
+  - name: "xclogparser"
+  - name: "jq"
+  - name: "xcbeautify"
+  - name: "screen"
+  - name: "applesimutils"
+...
