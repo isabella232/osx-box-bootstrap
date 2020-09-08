@@ -55,16 +55,21 @@ ver_line="$(brew --version)" ;                    echo "* brew: $ver_line"
 
 
 
-ver_line="$(ansible --version | grep ansible)" ;  echo "* Ansible: $ver_line"
-ver_line="$(gtimeout --version | grep 'timeout')" ;  echo "* gtimeout: $ver_line"
-ver_line="$(watchman --version)" ;                echo "* watchman: $ver_line"
-ver_line="$(flow version)" ;                      echo "* flow: $ver_line"
-ver_line="$(carthage version)" ;                  echo "* carthage: $ver_line"
-ver_line="$(convert --version | head -1)" ;       echo "* imagemagick (convert): $ver_line"
-ver_line="$(ps2ascii --version)" ;                echo "* ghostscript (ps2ascii): $ver_line"
-ver_line="$(screen --version | grep Screen)" ;    echo "* screen: $ver_line"
-ver_line="$(firebase --version)" ;                    echo "* firebase: $ver_line"
-ver_line="$(applesimutils -v)" ;                  echo "* $ver_line"
+ver_line="$(ansible --version | grep ansible)" ;              echo "* Ansible: $ver_line"
+ver_line="$(gtimeout --version | grep 'timeout')" ;           echo "* gtimeout: $ver_line"
+ver_line="$(watchman --version)" ;                            echo "* watchman: $ver_line"
+ver_line="$(flow version)" ;                                  echo "* flow: $ver_line"
+ver_line="$(carthage version)" ;                              echo "* carthage: $ver_line"
+ver_line="$(convert --version | head -1)" ;                   echo "* imagemagick (convert): $ver_line"
+ver_line="$(ps2ascii --version)" ;                            echo "* ghostscript (ps2ascii): $ver_line"
+ver_line="$(screen --version | grep Screen)" ;                echo "* screen: $ver_line"
+ver_line="$(firebase --version)" ;                            echo "* firebase: $ver_line"
+ver_line="$(applesimutils -v)" ;                              echo "* $ver_line"
+ver_line="$(jq -- version | sed 's/.*\(...\)/\1/')";          echo "* jq: $ver_line"
+ver_line="$(xcbeautify --version)";                           echo "* $ver_line"
+ver_line="$(xclogparser version)";                            echo "* $ver_line"
+ver_line="$(screen --version | awk '{print $1, $3}')";        echo "* $ver_line"
+ver_line="$(applesimutils --version | awk '{print $1, $3}')"; echo "* $ver_line"
 
 
 
