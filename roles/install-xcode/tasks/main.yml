@@ -11,3 +11,12 @@
   environment:
     XCODE_INSTALL_USER: "{{ XCODE_INSTALL_USER }}"
     XCODE_INSTALL_PASSWORD: "{{ XCODE_INSTALL_PASSWORD }}"
+
+- name: Install xcode simulators
+  shell: bash -l -c "xcversion simulators --install='{{ item }}'"
+  become: true
+  environment:
+    XCODE_INSTALL_USER: "{{ XCODE_INSTALL_USER }}"
+    XCODE_INSTALL_PASSWORD: "{{ XCODE_INSTALL_PASSWORD }}"
+  with_items:
+    - "{{ simulators }}"
