@@ -54,6 +54,10 @@
 - name: "firebase (CLI)"  # noqa 303 306
   shell: bash -l -c "curl -sL firebase.tools | bash"
 
+# We still have permission issue
+- name: Fixed pip install issue
+  shell: bash -l -c "sudo -H python3 -m pip install --force-reinstall pip"
+
 # ---------------------------------
 # --- Community requested tools ---
 # ---------------------------------
