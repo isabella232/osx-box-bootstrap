@@ -14,7 +14,7 @@
     src: "{{ android_ndk_source }}"
     dest: "{{ android_ndk_home }}"
     owner: "{{ param_user }}"
-    mode: 0770
+    mode: "0770"
     remote_src: true
 
 - name: Create profile.d directory
@@ -36,6 +36,7 @@
   file:
     dest: "{{ android_home }}/cmdline-tools/"
     state: directory
+    mode: "0755"
 
 - name: Download and extract command-line tools for Android
   become: true
@@ -59,8 +60,10 @@
 - name: Install Android packages with SDK Manager
   become: true
   environment:
-    PATH: "{{ android_home }}/tools/bin:{{ android_home }}/cmdline-tools/tools/bin:{{ ansible_env.PATH }}"
-  shell: "(echo y | sdkmanager --verbose '{{ item }}') || (echo y | sdkmanager --verbose '{{ item }}')"  # noqa 204 306
+    PATH: "{{ android_home }}/cmdline-tools/tools/bin:{{ ansible_env.PATH }}"
+  shell: "(echo y | sdkmanager --verbose '{{ item }}')"  # noqa 204 306
+  retries: 3
+  delay: 3
   with_items:
     - "{{ sdkmanagerpackages }}"
   args:
