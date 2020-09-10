@@ -13,7 +13,7 @@
     src: patch.j2
     dest: /Users/{{ param_user }}/profile.d/jenv.sh
     owner: "{{ param_user }}"
-    mode: 0755
+    mode: "0755"
 
 - name: setup jEnv  # noqa 306 Shells that use pipes should set the pipefail option
   shell: . /Users/{{ param_user }}/.bashrc && (yes | jenv add {{ detect_java_home.stdout }})
