@@ -1,72 +1,19 @@
 ---
+- name: brew install formulas
+  homebrew:
+    name: "{{ item.name }}"
+    state: present
+    update_homebrew: true
+  with_items:
+    - "{{ brew_packages }}"
 
-# brew some commands
-- name: brew install git
-  homebrew:
-    name: git
-    state: present
-- name: brew install wget
-  homebrew:
-    name: wget
-    state: present
-- name: brew install mercurial
-  homebrew:
-    name: mercurial
-    state: present
-- name: brew install ansible
-  homebrew:
-    name: ansible
-    state: present
-- name: brew install coreutils
-  homebrew:
-    name: coreutils
-    state: present
-- name: brew install watchman
-  homebrew:
-    name: watchman
-    state: present
-- name: brew install flow
-  homebrew:
-    name: flow
-    state: present
-- name: brew install tree
-  homebrew:
-    name: tree
-    state: present
-- name: brew install carthage
-  homebrew:
-    name: carthage
-    state: present
-- name: brew install imagemagick
-  homebrew:
-    name: imagemagick
-    state: present
-- name: brew install ghostscript
-  homebrew:
-    name: ghostscript
-    state: present
-- name: brew install yarn
-  homebrew:
-    name: yarn
-    state: present
-- name: brew install screen
-  homebrew:
-    name: screen
-    state: present
-- name: brew install readline
-  homebrew:
-    name: readline
-    state: present
+- name: "run git lfs install"
+  shell: bash -l -c 'git lfs install'
 
 - name: Add ansible.cfg to add some settings
   copy:
     src: ansible.cfg
-    dest: "/Users/{{ param_user }}/ansible.cfg"
-
-- name: brew install java
-  homebrew_cask:
-    name: java
-    state: present
+    dest: "{{ ansible_dest }}"
 
 # curl used in place of get_url or uri module
 # Shells that use pipes should set the pipefail option
@@ -74,83 +21,16 @@
   shell: bash -l -c "curl -sL firebase.tools | bash"
   become: true
 
-# Git LFS
-- name: "brew install git lfs"
-  homebrew:
-    name: git-lfs
-    state: present
-- name: "run git lfs install"
-  shell: bash -l -c 'git lfs install'
-
-#
-# Setup Bitrise specific folders
-#
+# Setup Bitrise specific folders:
 # Setup the base folders / paths, referenced by ~/.profiles/bitrise_profile
 # These folders will be created in the HOME directory.
 - name: Setup Bitrise specific folders
   file:
-    path: "/Users/{{ param_user }}/{{ item.fold_path }}"
+    path: "{{ bitrise_specific_folder_path }}"
     state: directory
     owner: "{{ param_user }}"
   with_items:
-    # BITRISE_SOURCE_DIR
-    - { fold_path: 'git' }
-    # BITRISE_STEP_DIR
-    - { fold_path: 'stepdir' }
-    # BITRISE_DEPLOY_DIR
-    - { fold_path: 'deploy' }
-    # BITRISE_LIBRARY_DIR
-    - { fold_path: 'Library/MobileDevice/Provisioning Profiles' }
-    # BITRISE_PROFILE_DIR
-    - { fold_path: 'profiles' }
-    # BITRISE_SYM_ROOT
-    - { fold_path: 'build' }
-    # BITRISE_OBJ_ROOT
-    - { fold_path: 'bin' }
-    # BITRISE_FOLDER_PATH
-    - { fold_path: 'bitrise' }
-    # BITRISE_STEP_DATA_FOLDER_PATH
-    - { fold_path: 'bitrise/stepdata' }
-    #
-    - { fold_path: 'bitrise/tools' }
-
-# Sync the tools/ dir
-- name: Sync the tools dir
-  synchronize:
-    src: tools/
-    dest: "/Users/{{ param_user }}/bitrise/tools/"
-
-- name: make cmd-bridge executable
-  file:
-    path: $HOME/bitrise/tools/cmd-bridge/_scripts/install_launchctl_plist_for_current_user.sh
-    owner: vagrant
-    group: staff
-    mode: '0755'
-- name: set up cmd-bridge
-  shell: bash -l -c "$HOME/bitrise/tools/cmd-bridge/_scripts/install_launchctl_plist_for_current_user.sh"
-- name: load plist
-  shell: bash -l -c "launchctl load /Users/vagrant/Library/LaunchAgents/bitrise.io.tools.cmd-bridge.plist"
-
-#
-# Install python3
-- name: Install python@3
-  homebrew:
-    name: python@3
-    state: present
+    - "{{ bitrise_specific_folders }}"
 
 - name: Check pip installs
   shell: bash -l -c "pip3 install requests"
-
-# Switch to Xcode stable, the default Xcode for building
-- name: Switch to Xcode stable, the default Xcode for building
-  shell: bash -l -c "xcode-select --switch {{ xcode_path }}"
-  become: true
-
-# iOS Simulator list. Call it at least once to initialize these.
-# It seems since Xcode 8.3 only the first run
-# initializes the Simulator UDIDs, if we don't call it
-# during provisioning the UDIDs will change for every boot
-# and `xcrun simctl list` will take quite some time (~60 seconds).
-- name: xcrun simctl list
-  shell: bash -l -c "xcrun simctl list"
-  become: true

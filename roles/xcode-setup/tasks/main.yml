@@ -1,0 +1,14 @@
+---
+# Switch to Xcode stable, the default Xcode for building
+- name: Switch to Xcode stable, the default Xcode for building
+  shell: bash -l -c "xcode-select --switch {{ xcode_path }}"
+  become: true
+
+# iOS Simulator list. Call it at least once to initialize these.
+# It seems since Xcode 8.3 only the first run
+# initializes the Simulator UDIDs, if we don't call it
+# during provisioning the UDIDs will change for every boot
+# and `xcrun simctl list` will take quite some time (~60 seconds).
+- name: xcrun simctl list
+  shell: bash -l -c "xcrun simctl list"
+  become: true

@@ -1,0 +1,31 @@
+---
+ansible_dest: $HOME/ansible.cfg
+bitrise_specific_folder_path: $HOME/{{ item.fold_path }}
+tools_folder_dest: $HOME/bitrise/tools/
+bitrise_specific_folders:
+  - fold_path: bin
+  - fold_path: bitrise
+  - fold_path: bitrise/stepdata
+  - fold_path: bitrise/tools
+  - fold_path: build
+  - fold_path: deploy
+  - fold_path: git
+  - fold_path: Library/MobileDevice/Provisioning Profiles
+  - fold_path: profiles
+  - fold_path: stepdir
+brew_packages:
+  - name: ansible
+  - name: coreutils
+  - name: flow
+  - name: ghostscript
+  - name: git
+  - name: git-lfs
+  - name: imagemagick
+  - name: mercurial
+  - name: python@3
+  - name: screen
+  - name: tree
+  - name: watchman
+  - name: wget
+  - name: yarn
+...

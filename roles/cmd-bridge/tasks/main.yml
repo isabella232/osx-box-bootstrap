@@ -1,0 +1,19 @@
+---
+# Sync the tools/ dir
+- name: Sync the tools dir
+  synchronize:
+    src: tools/
+    dest: "/Users/vagrant/bitrise/tools"
+
+- name: make cmd-bridge executable
+  file:
+    path: "$HOME/bitrise/tools/cmd-bridge/_scripts/install_launchctl_plist_for_current_user.sh"
+    owner: "{{ param_user }}"
+    group: staff
+    mode: '0755'
+
+- name: set up cmd-bridge
+  shell: bash -l -c "$HOME/bitrise/tools/cmd-bridge/_scripts/install_launchctl_plist_for_current_user.sh"
+
+- name: load plist
+  shell: bash -l -c "launchctl load /Users/vagrant/Library/LaunchAgents/bitrise.io.tools.cmd-bridge.plist"

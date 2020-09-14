@@ -136,6 +136,7 @@ workflows:
             test_go
             test_bitrise-cli
             test_remote-access
+            test_intermediate-setup
         - access_token: $BITRISE_ACCESS_TOKEN
 
   perform-weekly-cache-update:
@@ -223,6 +224,12 @@ workflows:
   test_android:
     envs:
     - ROLE: "android"
+    after_run:
+    - _run_molecule_test
+
+  test_intermediate-setup:
+    envs:
+    - ROLE: "intermediate-setup"
     after_run:
     - _run_molecule_test
 
