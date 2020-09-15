@@ -20,3 +20,10 @@
     XCODE_INSTALL_PASSWORD: "{{ XCODE_INSTALL_PASSWORD }}"
   with_items:
     - "{{ simulators }}"
+
+- name: Cleanup cached downloads
+  shell: bash -l -c "xcversion cleanup"
+  become: true
+  environment:
+    XCODE_INSTALL_USER: "{{ XCODE_INSTALL_USER }}"
+    XCODE_INSTALL_PASSWORD: "{{ XCODE_INSTALL_PASSWORD }}"
