@@ -3,7 +3,7 @@
   shell: "{{ flutter_home }}/flutter/bin/flutter --version"
   ignore_errors: true
   register: flutter_version_check
-  changed_when: "'Flutter 1.20.2' not in flutter_version_check.stdout"
+  changed_when: "'Flutter 1.20.3' not in flutter_version_check.stdout"
 
 - name: Install, configure and warmup flutter
   block:
@@ -50,5 +50,5 @@
 
   - name: Run flutter doctor
     shell: bash -l -c "{{ flutter_home }}/flutter/bin/flutter doctor"
-  when: "'Flutter 1.20.2' not in flutter_version_check.stdout"
+  when: "'Flutter 1.20.3' not in flutter_version_check.stdout"
 ...

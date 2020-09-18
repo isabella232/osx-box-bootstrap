@@ -1,5 +1,8 @@
 ## UPCOMING
 
+## `v2020_09_11_2`
+* `flutter`: `1.20.3`
+
 ## `v2020_09_11_1`
 * `refactored and added tests to intermediate setup`
 
