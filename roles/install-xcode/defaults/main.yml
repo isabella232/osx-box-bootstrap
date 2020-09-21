@@ -1,5 +1,5 @@
 ---
-xcode_version: "11.7"
+xcode_version: "12.2 beta"
 simulators:
   - 'iOS 13.6'
   - 'iOS 13.5'
