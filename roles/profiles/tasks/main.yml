@@ -53,3 +53,14 @@
     state: directory
     owner: "{{ param_user }}"
     mode: 0755
+
+# zsh is now the default shell on macos.
+# when users use the remote access feature, they are dropped to
+# a zsh. He we need to load all the bash env vars to make them
+# accessible to the user
+- name: setup .zshrc
+  copy:
+    src: zshrc
+    dest: "/Users/{{ param_user }}/.zshrc"
+    owner: "{{ param_user }}"
+    mode: "0644"
