@@ -7,4 +7,5 @@ skip_list:
     - '301'  # Commands should not change things if nothing needs doing
     - '305'  # Use shell only when shell functionality is required
     - '601'  # Don't compare to literal True/False
+    - '208'  # File permissions unset or incorrect
 ...

@@ -1,5 +1,8 @@
 ## UPCOMING
 
+## `v2020_09_24`
+* `pre install openconnect`
+
 ## `v2020_09_18`
 * `zshrc file`
 

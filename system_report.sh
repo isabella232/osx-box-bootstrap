@@ -70,6 +70,7 @@ ver_line="$(xcbeautify --version)";                           echo "* $ver_line"
 ver_line="$(xclogparser version)";                            echo "* $ver_line"
 ver_line="$(screen --version | awk '{print $1, $3}')";        echo "* $ver_line"
 ver_line="$(applesimutils --version | awk '{print $1, $3}')"; echo "* $ver_line"
+ver_line="$(openconnect --version | head -n 1)";              echo "* $ver_line"
 
 
 
