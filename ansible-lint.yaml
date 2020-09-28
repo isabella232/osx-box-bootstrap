@@ -2,6 +2,7 @@
 # We are skipping these Ansible-lint rules
 # For more information consult the documentation https://docs.ansible.com/ansible-lint/rules/rules.html
 skip_list:
+    - '106'  # Role name {} does not match ``^[a-z][a-z0-9_]+$`` pattern
     - '204'  # Lines should be no longer than 160 chars, we validate it with yamllint
     - '301'  # Commands should not change things if nothing needs doing
     - '305'  # Use shell only when shell functionality is required
