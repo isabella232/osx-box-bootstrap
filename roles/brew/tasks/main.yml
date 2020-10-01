@@ -17,7 +17,7 @@
 
 - name: Check if brew installed
   shell: ". ~/.bash_profile && brew --help"
-  register: brew_installed
+  register: is_brew_installed
   changed_when: false
   ignore_errors: true
 
@@ -26,17 +26,17 @@
     url: https://raw.githubusercontent.com/Homebrew/install/master/install.sh
     dest: /tmp/brew_installer.sh
     mode: '0755'
-  when: brew_installed is failed
+  when: is_brew_installed is failed
 
 - name: Execute the brew_installer.sh
   shell: /tmp/brew_installer.sh
-  when: brew_installed is failed
+  when: is_brew_installed is failed
 
 - name: Remove the brew_installer.sh
   file:
     path: /tmp/brew_installer.sh
     state: absent
-  when: brew_installed is failed
+  when: is_brew_installed is failed
 
 - name: Is brew in bash_profile
   shell: "grep brew ~/.bash_profile"
@@ -47,23 +47,3 @@
 - name: Add brew to PATH. Brew officially supported on linux it is called linuxbrew and for test we use that
   shell: "echo 'eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)' >> ~/.bash_profile"
   when: ansible_distribution == 'Ubuntu' and bash_profile is failed
-
-- name: Check if repository for brew core is correct
-  shell: ". ~/.bash_profile && grep github.com/bitrise-io/homebrew-core $(brew --repository)/Library/Taps/homebrew/homebrew-core/.git/config"  # yamllint disable-line rule:line-length
-  changed_when: false
-  ignore_errors: true
-  register: brew_repository_core_set
-
-- name: Setup brew to use our own fork of homebrew core to ensure versions
-  script: setup_brew_core.sh
-  when: brew_repository_core_set is failed
-
-- name: Check if repository for brew cask is correct
-  shell: ". ~/.bash_profile && grep github.com/bitrise-io/homebrew-cask $(brew --repository)/Library/Taps/homebrew/homebrew-cask/.git/config"  # yamllint disable-line rule:line-length
-  changed_when: false
-  ignore_errors: true
-  register: brew_repository_cask_set
-
-- name: Setup brew to use our own fork of homebrew cask to ensure versions
-  script: setup_brew_cask.sh
-  when: brew_repository_cask_set is failed

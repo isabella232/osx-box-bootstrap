@@ -1,0 +1,20 @@
+---
+- name: Check if repository for brew core is correct
+  shell: ". ~/.bash_profile && grep mirrors/github.com/bitrise-io $(brew --repository)/Library/Taps/homebrew/homebrew-core/.git/config"  # yamllint disable-line rule:line-length
+  changed_when: false
+  ignore_errors: true
+  register: brew_repository_core_set
+
+- name: Setup brew to use our own fork of homebrew core to ensure versions
+  script: setup_brew_core.sh
+  when: brew_repository_core_set is failed
+
+- name: Check if repository for brew cask is correct
+  shell: ". ~/.bash_profile && grep mirrors/github.com/bitrise-io $(brew --repository)/Library/Taps/homebrew/homebrew-cask/.git/config"  # yamllint disable-line rule:line-length
+  changed_when: false
+  ignore_errors: true
+  register: brew_repository_cask_set
+
+- name: Setup brew to use our own fork of homebrew cask to ensure versions
+  script: setup_brew_cask.sh
+  when: brew_repository_cask_set is failed

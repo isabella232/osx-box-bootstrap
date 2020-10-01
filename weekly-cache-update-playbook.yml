@@ -15,6 +15,7 @@
   roles:
     - role: profiles
     - role: ssh-setup
+    - role: brew-repos-fix
     - role: weekly-update-shared
     - role: go
     - role: bitrise-cli

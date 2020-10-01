@@ -16,6 +16,7 @@
     - role: ssh-setup
     - role: profiles
     - role: brew
+    - role: brew-repos-fix
     - role: tmp-setup
     - role: ruby
     - role: install-xcode
