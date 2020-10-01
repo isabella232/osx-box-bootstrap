@@ -1,8 +1,4 @@
 ---
-- name: brew install java
-  homebrew_cask:
-    name: java
-    state: present
 - name: brew install formulas
   homebrew:
     name: "{{ item.name }}"
