@@ -1,5 +1,8 @@
 ## UPCOMING
 
+## `v2020_10_01`
+* `switch Xcode to 12.2 Beta 2`
+
 ## `v2020_09_24`
 * `pre install openconnect`
 
