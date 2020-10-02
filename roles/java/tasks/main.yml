@@ -45,9 +45,9 @@
 
 - name: Use our own mirror of cask-versions  # noqa 302
   shell: |
-    mkdir -p `brew --repository`/bitrise-io
+    mkdir -p /usr/local/Homebrew/bitrise-io
     git clone https://github.com/bitrise-io/homebrew-cask-versions ~/mirrors/github.com/bitrise-io/cask-versions
-    git clone ~/mirrors/github.com/bitrise-io/cask-versions `brew --repository`/bitrise-io/cask-versions
+    git clone ~/mirrors/github.com/bitrise-io/cask-versions /usr/local/Homebrew/bitrise-io/cask-versions
 
 - name: brew tap openjdk library
   homebrew_tap:
