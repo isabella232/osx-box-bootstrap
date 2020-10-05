@@ -1,0 +1,8 @@
+---
+- name: Add vagrant user
+  user:
+    name: vagrant
+    comment: default user on bitrise
+    group: staff
+    password: vagrant
+...
