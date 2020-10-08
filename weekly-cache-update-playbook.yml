@@ -14,6 +14,7 @@
     - bitrise_cli_version: "{{ lookup('file', '/Users/vagrant/git/cli_version.txt') }}"
   roles:
     - role: profiles
+    - role: certs
     - role: ssh-setup
     - role: brew-repos-fix
     - role: weekly-update-shared

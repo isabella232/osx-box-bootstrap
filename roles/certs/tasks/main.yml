@@ -1,9 +1,21 @@
 ---
+- name: Check if the AppleWWDRCAG3 certificate is installed
+  shell: |
+    security find-certificate \
+      -a \
+      -c 'Apple Worldwide Developer Relations Certification Authority' /Library/Keychains/System.keychain \
+      | grep '"snbr"<blob>=0x7CAF690A25B739FE7B9B447AC178C5EE'
+  register: AppleWWDRCAG3_installed
+  ignore_errors: true
+
+
 - name: Apple certificate download
   get_url:
     url: https://www.apple.com/certificateauthority/AppleWWDRCAG3.cer
     dest: $HOME/apple_cert.cer
     checksum: md5:08a45128fa238443623421dd2c9887ab
+  when: AppleWWDRCAG3_installed == 1
 
 - name: Add Apple certificate
   shell: bash -l -c "sudo security add-certificates -k /Library/Keychains/System.keychain $HOME/apple_cert.cer"
+  when: AppleWWDRCAG3_installed == 1

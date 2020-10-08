@@ -1,5 +1,9 @@
 ## UPCOMING
 
+## `v2020_10_07`
+* `include certs role in weekly update as well`
+* `certs role now can run multiple times`
+
 ## `v2020_10_01`
 * `switch Xcode to 12.2 Beta 2`
 
