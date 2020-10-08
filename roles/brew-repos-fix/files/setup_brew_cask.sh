@@ -6,6 +6,8 @@ source ~/.bash_profile
 
 brew_repository=$(brew --repository)
 
+rm -rf ~/mirrors/github.com/bitrise-io/homebrew-cask
+
 mkdir -p ~/mirrors/github.com/bitrise-io/
 
 git clone --bare https://github.com/bitrise-io/homebrew-cask ~/mirrors/github.com/bitrise-io/homebrew-cask
