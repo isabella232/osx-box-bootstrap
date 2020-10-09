@@ -1,6 +1,8 @@
 #!/bin/bash
 set -eo pipefail
 
+source ~/.venv/molecule/bin/activate
+
 function run_test {
     molecule destroy -s "$1"
     molecule create -s "$1"

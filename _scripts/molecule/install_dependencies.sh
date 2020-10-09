@@ -2,15 +2,11 @@
 
 set -eo pipefail
 
+script_full_path=$(dirname "$0")
 os="$(uname -s)"
-if [[ "$os" == "Darwin" ]]; then
-    echo "Installing Molecule and deps..."
-    pip3 install molecule testinfra docker pytest &>"$BITRISE_DEPLOY_DIR"/pip_install.log
-    molecule_version="$(molecule --version | sed -n 1p)"
-    echo "Successfully installed $molecule_version"
-else
-    #TODO: ugly hack to use molecule till we not switch to virtualenv
-    #build runs in ubuntu 16.04, python 3.5 is installed there, but it is not compatible with molecule
+
+if [[ "$os" != "Darwin" ]]; then
+    # build runs in ubuntu 16.04, python 3.5 is installed there, but it is not compatible with molecule
     add-apt-repository -y ppa:deadsnakes/ppa
 
     echo "Updating apt..."
@@ -27,8 +23,13 @@ else
 
     pip_version="$(pip --version | awk '{print $1, $2}')"
     echo "Installed $pip_version"
-
-    pip install molecule testinfra docker pytest &>"$BITRISE_DEPLOY_DIR"/pip_install.log
-    molecule_version="$(molecule --version | sed -n 1p)"
-    echo "Successfully installed $molecule_version"
 fi
+
+
+python3 -m venv ~/.venv/molecule
+source ~/.venv/molecule/bin/activate
+
+pip install -r "${script_full_path}/requirements.txt" &>"$BITRISE_DEPLOY_DIR"/pip_install.log
+
+molecule_version="$(molecule --version | sed -n 1p)"
+echo "Successfully installed $molecule_version"
