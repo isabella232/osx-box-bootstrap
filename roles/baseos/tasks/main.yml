@@ -5,4 +5,97 @@
     comment: default user on bitrise
     group: staff
     password: vagrant
-    groups: everyone, localaccounts, _appserverusr, admin, _appserveradm, _lpadmin, com.apple.access_screensharing, com.apple.sharepoint.group.1, _appstore, _lpoperator, _developer, _analyticsusers, com.apple.access_ftp, com.apple.access_ssh, com.apple.access_remote_ae
+    groups: 
+      - everyone
+      - localaccounts
+      - _appserverusr
+      - admin
+      - _appserveradm
+      - _lpadmin
+      - com.apple.access_screensharing
+      - com.apple.sharepoint.group.1
+      - _appstore
+      - _lpoperator
+      - _developer
+      - _analyticsusers
+      - com.apple.access_ftp
+      - com.apple.access_ssh
+      - com.apple.access_remote_ae
+
+- name: Check if auto updates are disabled
+  become: true
+  shell: softwareupdate --schedule | grep -q 'off'
+  register: is_softwareupdates_disabled
+  changed_when: false
+  ignore_errors: true
+
+- name: Disable auto-updates
+  become: true
+  shell: softwareupdate --schedule off
+  when: is_softwareupdates_disabled.rc == 1
+
+- name: Check if spotlight is disabled
+  become: true
+  shell: launchctl list | grep -q com.apple.metadata.mds
+  register: spotlight_state
+  changed_when: false
+  ignore_errors: true
+
+- name: Disable spotlight
+  become: true
+  shell: launchctl unload -w /System/Library/LaunchDaemons/com.apple.metadata.mds.plist
+  when: spotlight_state.rc == 0
+
+- name: Check if computer sleep is enabled
+  become: true
+  shell: systemsetup -getcomputersleep | grep -q Never
+  register: computer_sleep_state
+  changed_when: false
+  ignore_errors: true
+
+- name: Disable computer sleep
+  become: true
+  shell: systemsetup -setcomputersleep Never
+  when: computer_sleep_state.rc == 1
+
+- name: Check if display sleep is enabled
+  become: true
+  shell: systemsetup -getdisplaysleep | grep -q Never
+  register: display_sleep_state
+  changed_when: false
+  ignore_errors: true
+
+- name: Disable display sleep
+  become: true
+  shell: systemsetup -setdisplaysleep Never
+  when: display_sleep_state.rc == 1
+
+- name: Check is screensaver is disabled
+  become: true
+  shell: defaults -currentHost read com.apple.screensaver | grep "idleTime = 0;"
+  register: screensaver_state
+  changed_when: false
+  ignore_errors: true
+
+- name: Disable screensaver
+  shell: defaults -currentHost write com.apple.screensaver idleTime 0
+  when: screensaver_state.rc == 1
+
+# Disable hybernate functions
+- name: Make sure config file is empty
+  become: true
+  copy:
+    content: ""
+    dest: /private/var/vm/sleepimage
+
+- name: Check if file has the correct flag
+  become: true
+  shell: ls -lO /private/var/vm/sleepimage | grep uchg
+  register: is_sleepimage_flagged
+  changed_when: false
+  ignore_errors: true
+
+- name: Change config file flags
+  become: true
+  shell: chflags uchg /private/var/vm/sleepimage
+  when: is_sleepimage_flagged.rc == 1
