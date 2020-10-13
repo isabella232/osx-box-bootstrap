@@ -1,5 +1,8 @@
 ## UPCOMING
 
+## `v2020_10_10_1`
+* `flutter`: `1.22.1`
+
 ## `v2020_10_07`
 * `include certs role in weekly update as well`
 * `certs role now can run multiple times`
