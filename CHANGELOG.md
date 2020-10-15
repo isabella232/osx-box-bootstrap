@@ -1,26 +1,5 @@
 ## UPCOMING
 
-## `v2020_12_08`
-* `Cocoapods setup update, from 1.8 CND is by default, no specs master required`
-
-## `v2020_12_01`
-* `aws-cli preinstalled`
-
-## `v2020_11_10`
-* `separate ruby-gems role to install gems and pods - reinstall gems in the weekly update`
-
-## `v2020_11_04`
-* `disable the execution of brew cleanup during install`
-
-## `v2020_11_03`
-* `switch Xcode to 12.1.1 Release Candidate`
-
-## `v2020_10_27_1`
-* `install cocoapods to the latest`
-
-## `v2020_10_21_1`
-* `Implemented a testinfra suite to test the baseOS configuration`
-
 ## `v2020_10_14_1`
 * `install ionic to latest`
 
