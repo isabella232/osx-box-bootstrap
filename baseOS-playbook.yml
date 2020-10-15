@@ -4,12 +4,7 @@
 #
 
 - hosts: all
-  # accelerate: true
-  remote_user: anka
   become_method: sudo
   any_errors_fatal: true
-  vars:
-    - ansible_sudo_pass: admin
-    - param_user: anka
   roles:
     - role: baseos
