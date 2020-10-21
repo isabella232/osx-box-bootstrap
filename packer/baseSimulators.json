@@ -25,7 +25,7 @@
       "user": "vagrant",
       "extra_arguments": [ "--extra-vars", "xcode_version={{user `xcode_version`}}" ],
       "ansible_env_vars": [ "ANSIBLE_HOST_KEY_CHECKING=False", "ANSIBLE_SSH_ARGS='-o ForwardAgent=yes -o ControlMaster=auto -o ControlPersist=60s'", "ANSIBLE_NOCOLOR=True" ],
-      "playbook_file": "../baseXcode-playbook.yml"
+      "playbook_file": "../baseSimulators-playbook.yml"
     }
   ],
   "variables": {
@@ -33,7 +33,7 @@
     "disk_size": "300G",
     "ram_size": "16G",
     "xcode_version": "{{env `XCODE_VERSION`}}",
-    "vm_name": "baseXcode_{{env `XCODE_VERSION`}}-{{timestamp}}",
-    "source_vm": "{{env `XCODE_SEED`}}"
+    "vm_name": "baseSimulators_{{env `XCODE_VERSION`}}-{{timestamp}}",
+    "source_vm": "{{env `SIMULATOR_SEED`}}"
   }
 }
