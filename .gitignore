@@ -3,3 +3,5 @@ _tmp
 .DS_Store
 roles/**/tests/__pycache__/*
 **/pytestdebug.log
+anka_key
+**/__pycache__

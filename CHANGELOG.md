@@ -1,5 +1,8 @@
 ## UPCOMING
 
+## `v2020_10_21_1`
+* `Implemented a testinfra suite to test the baseOS configuration`
+
 ## `v2020_10_10_1`
 * `flutter`: `1.22.1`
 
