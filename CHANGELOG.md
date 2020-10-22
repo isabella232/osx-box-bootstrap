@@ -36,6 +36,9 @@
 ## `v2020_10_27_1`
 * `install cocoapods to the latest`
 
+## `v2020_10_21_1`
+* `Implemented a testinfra suite to test the baseOS configuration`
+
 ## `v2020_10_14_1`
 * `install ionic to latest`
 

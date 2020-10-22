@@ -20,8 +20,31 @@
 
 - name: Disable spotlight
   become: true
-  shell: launchctl unload -w /System/Library/LaunchDaemons/com.apple.metadata.mds.plist
-  when: spotlight_state.rc == 0
+  shell:
+    cmd: |
+      defaults write $HOME/.Spotlight-V100/VolumeConfiguration.plist Exclusions -array "/Volumes"
+      defaults write $HOME/.Spotlight-V100/VolumeConfiguration.plist Exclusions -array "/Network"
+  when: spotlight_state.rc == 1
+
+- name: Get mds running processes
+  shell: "ps auxww | grep mds | grep -v grep | awk '{print $2}'"
+  register: running_processes
+  changed_when: false
+  ignore_errors: true
+  when: spotlight_state.rc == 1
+
+- name: Kill running processes
+  shell: "kill {{ item }}"
+  with_items: "{{ running_processes.stdout_lines }}"
+  when: spotlight_state.rc == 1
+
+- name: Make sure indexing is DISABLED for the main volume
+  become: true
+  shell:
+    cmd: |
+      mdutil -a -i off /
+      mdutil -a -i off
+  when: spotlight_state.rc == 1
 
 - name: Check if computer sleep is enabled
   become: true
@@ -55,24 +78,6 @@
   ignore_errors: true
 
 - name: Disable screensaver
+  become: true
   shell: defaults -currentHost write com.apple.screensaver idleTime 0
   when: screensaver_state.rc == 1
-
-# Disable hybernate functions
-- name: Make sure config file is empty
-  become: true
-  copy:
-    content: ""
-    dest: /private/var/vm/sleepimage
-
-- name: Check if file has the correct flag
-  become: true
-  shell: ls -lO /private/var/vm/sleepimage | grep uchg
-  register: is_sleepimage_flagged
-  changed_when: false
-  ignore_errors: true
-
-- name: Change config file flags
-  become: true
-  shell: chflags uchg /private/var/vm/sleepimage
-  when: is_sleepimage_flagged.rc == 1
