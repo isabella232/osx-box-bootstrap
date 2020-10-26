@@ -17,6 +17,7 @@ export XCODE_SEED=baseOS_10-15-7-1602690351
 
 if test $2 = 11.6 ; then
   export SIMULATOR_SEED=baseXcode_11.6-1602757543
+  export STACK_SEED=baseSimulators_11.6-1602769729
 elif test $2 = 11.7 ; then
   export SIMULATOR_SEED=baseXcode_11.7-1602758063
 fi

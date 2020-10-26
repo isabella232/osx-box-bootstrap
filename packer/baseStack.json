@@ -1,0 +1,39 @@
+{
+  "builders": [
+    {
+     "type": "veertu-anka",
+     "installer_app": "/Applications/Install macOS Catalina.app/",
+     "disk_size": "{{user `disk_size`}}",
+     "ram_size": "{{user `ram_size`}}",
+     "cpu_count": "{{user `cpu_count`}}",
+     "vm_name": "{{ user `vm_name` }}",
+     "source_vm_name":  "{{user `source_vm`}}"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline": [
+        "sleep 5",
+        "whoami",
+        "which python",
+        "python --version"
+      ]
+    },
+    {
+      "type": "ansible",
+      "user": "vagrant",
+      "extra_arguments": [ "--extra-vars", "xcode_version={{user `xcode_version`}}", "-v" ],
+      "ansible_env_vars": [ "ALLOW_WORLD_READABLE_TMPFILES=True", "ANSIBLE_HOST_KEY_CHECKING=False", "ANSIBLE_SSH_ARGS='-o ForwardAgent=yes -o ControlMaster=auto -o ControlPersist=60s'", "ANSIBLE_NOCOLOR=True" ],
+      "playbook_file": "../baseStack-playbook.yml"
+    }
+  ],
+  "variables": {
+    "cpu_count": "4",
+    "disk_size": "300G",
+    "ram_size": "16G",
+    "xcode_version": "{{env `XCODE_VERSION`}}",
+    "vm_name": "baseStack-{{env `XCODE_VERSION`}}-{{timestamp}}",
+    "source_vm": "{{env `STACK_SEED`}}"
+  }
+}
