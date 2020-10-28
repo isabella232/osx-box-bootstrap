@@ -1,5 +1,8 @@
 ## UPCOMING
 
+## `v2020_10_14_1`
+* `install ionic to latest`
+
 ## `v2020_10_10_1`
 * `flutter`: `1.22.1`
 
