@@ -1,5 +1,8 @@
 ## UPCOMING
 
+## `v2020_10_27_1`
+* `install cocoapods to the latest`
+
 ## `v2020_10_14_1`
 * `install ionic to latest`
 
