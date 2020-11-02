@@ -6,7 +6,7 @@ ruby_versions:
   - version: "2.4.5"
 gem_packages:
   - name: "cocoapods"
-    version: "1.9.1"
+    version: "1.10.0"
   - name: "xcpretty"
     version: "0.3.0"
   - name: "bundler"
