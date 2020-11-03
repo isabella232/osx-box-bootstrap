@@ -1,5 +1,8 @@
 ## UPCOMING
 
+## `v2020_11_03`
+* `switch Xcode to 12.1.1 Release Candidate`
+
 ## `v2020_10_27_1`
 * `install cocoapods to the latest`
 
