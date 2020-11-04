@@ -11,3 +11,19 @@
   environment:
     XCODE_INSTALL_USER: "{{ XCODE_INSTALL_USER }}"
     XCODE_INSTALL_PASSWORD: "{{ XCODE_INSTALL_PASSWORD }}"
+
+- name: Git checkout
+  git:
+    repo: 'https://github.com/bitrise-io/xcode-test-apps'
+    dest: "/opt/bitrise/testapps"
+    version: 1.0
+
+- name: Xcodebuild iOS
+  shell: xcodebuild test -project bitrise.xcodeproj -scheme bitrise -destination 'platform=iOS Simulator,name=iPhone 11,OS=14.2'
+  args:
+    chdir: "/opt/bitrise/testapps/bitrise"
+
+- name: Xcodebuild macOS
+  shell: xcodebuild test -project bitrise-mac.xcodeproj -scheme bitrise-mac -destination 'platform=macOS,arch=x86_64,id=420E1727-1771-77C5-658D-E41EAF10AE6C'
+  args:
+    chdir: "/opt/bitrise/testapps/bitrise-mac"
