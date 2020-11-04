@@ -1,5 +1,9 @@
 ## UPCOMING
 
+
+## `v2020_11_04`
+* `disable the execution of brew cleanup during install`
+
 ## `v2020_11_03`
 * `switch Xcode to 12.1.1 Release Candidate`
 
