@@ -2,20 +2,27 @@
 dependency:
   name: galaxy
 driver:
-  name: docker
+  name: delegated
 platforms:
-  - name: instance
-    image: linuxbrew/linuxbrew
-    dockerfile: ../Dockerfile.j2
+  - name: anka-instance
 provisioner:
   name: ansible
   lint:
     name: ansible-lint
+  log: true
+  config_options:
+    defaults:
+      callback_whitelist: profile_tasks
   inventory:
     host_vars:
-      instance:
-        param_user: linuxbrew
-        param_group: linuxbrew
+      anka-instance:
+        param_user: vagrant
+        param_group: staff
+        ansible_user: ansible
+        ansible_ssh_pass: vagrant
+  playbooks:
+    create: ../common-playbooks/create.yml
+    destroy: ../common-playbooks/destroy.yml
 verifier:
   name: testinfra
   additional_files_or_dirs:

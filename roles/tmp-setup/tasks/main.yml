@@ -44,12 +44,12 @@
 
 # Turn off APSD
 - name: "Turn off apsd - can be a CPU hog"
-  shell: sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.apsd.plist
+  shell: launchctl unload -w /System/Library/LaunchDaemons/com.apple.apsd.plist
   become: true
 
 # Turn off Gatekeeper
 - name: "Turn off gatekeeper - it will disable the popup of the not appstore downloaded warning"
-  shell: sudo spctl --master-disable
+  shell: spctl --master-disable
   become: true
 
 #

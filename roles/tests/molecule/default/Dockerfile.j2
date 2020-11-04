@@ -1,5 +1,0 @@
-FROM ubuntu:18.04
-
-RUN apt-get update && apt-get install -y bash bind9utils gcc git python python-psutil python-dev python-pip python-virtualenv libssl-dev nmap sudo rsync
-RUN groupadd wheel && useradd -s /bin/bash -m ansible && usermod -a -G wheel ansible
-RUN echo "ansible ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers

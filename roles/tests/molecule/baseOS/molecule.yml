@@ -9,17 +9,22 @@ provisioner:
   name: ansible
   lint:
     name: ansible-lint
+  log: true
+  config_options:
+    defaults:
+      callback_whitelist: profile_tasks
   env:
     IS_CI: "true"
   inventory:
     host_vars:
       anka-instance:
-        param_user: vagrant
+        ansible_user: vagrant
         ansible_ssh_pass: vagrant
+        param_user: vagrant
   playbooks:
     create: ../common-playbooks/create.yml
     destroy: ../common-playbooks/destroy.yml
 verifier:
   name: testinfra
   additional_files_or_dirs:
-    - ../../../../node/tests/*
+    - ../../../../baseos/tests/*
