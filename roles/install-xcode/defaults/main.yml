@@ -1,11 +1,11 @@
 ---
-xcode_version: "12.2 beta 2"
+xcode_version: "12.1.1 Release Candidate"
 simulators:
+  - 'iOS 13.7'
   - 'iOS 13.6'
   - 'iOS 13.5'
-  - 'iOS 13.4'
+  - 'watchOS 6.2.1'
   - 'watchOS 6.1.1'
-  - 'watchOS 6.0'
+  - 'tvOS 13.4'
   - 'tvOS 13.3'
   - 'tvOS 13.2'
-  - 'tvOS 13.0'
