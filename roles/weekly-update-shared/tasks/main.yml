@@ -102,6 +102,7 @@
 #     (built during Stack prepare, to validate the Xcode setup)
 #  * Xcode "components" (simulators) installer Download Cache dir:
 #     Xcode stores the simulator installers here, and it never cleans them up for some reason.
+
 - name: Remove tmp and test dirs inside the HOME directory
   file:
     path: "$HOME/{{ item.fold_path }}"
@@ -109,3 +110,7 @@
   with_items:
     - { fold_path: 'Library/Developer/Xcode/DerivedData' }
     - { fold_path: 'Library/Caches/com.apple.dt.Xcode/Downloads' }
+
+- name: Brew cleanup weekly
+  include_role:
+    name: brew-cleanup-weekly
