@@ -1,0 +1,53 @@
+---
+- name: Create
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  no_log: false
+  tasks:
+
+    # TODO: Developer must implement and populate 'server' variable
+
+    - name: Clone anka vm
+      shell: anka clone baseOS_10-15 molecule-test
+
+    - name: Start anka vm
+      shell: anka start molecule-test
+
+    - name: Enable port-forwarding
+      shell: anka modify molecule-test add port-forwarding --host-port 0 --guest-port 22 ssh
+
+    - when: server.changed | default(true) | bool
+      block:
+        - name: Populate instance config dict
+          set_fact:
+            instance_conf_dict: {
+              'instance': "anka-instance",
+              'address': "127.0.0.1",
+              'user': "vagrant",
+              'port': "10000",
+              'password': "vagrant",
+              'connection': "ssh",
+              'become_method': 'sudo' }
+          with_items: "."
+          register: instance_config_dict
+
+        - name: Convert instance config dict to a list
+          set_fact:
+            instance_conf: "{{ instance_config_dict.results | map(attribute='ansible_facts.instance_conf_dict') | list }}"
+
+        - name: Dump instance config
+          copy:
+            content: |
+              # Molecule managed
+
+              {{ instance_conf | to_json | from_json | to_yaml }}
+            dest: "{{ molecule_instance_config }}"
+
+    - name: Wait for SSH
+      wait_for:
+        port: "10000"
+        host: "127.0.0.1"
+        search_regex: SSH
+        delay: 10
+        timeout: 320

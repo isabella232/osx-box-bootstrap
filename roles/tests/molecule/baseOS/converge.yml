@@ -1,0 +1,7 @@
+---
+- name: Converge
+  hosts: all
+  tasks:
+    - name: "Include baseos"
+      include_role:
+        name: "baseos"

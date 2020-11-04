@@ -26,12 +26,18 @@
   shell: bash -l -c "pod setup || pod setup"
   when: is_incremental_setup|default(false) == false
 
+- name: Is cocopods already set
+  shell: bash -l -c "cd ~/.cocoapods/repos/master && git status"
+  changed_when: false
+  ignore_errors: true
+  register: cocoapods
+
 - name: CocoaPods specs install with pod
   shell: bash -l -c "pod repo add master https://github.com/CocoaPods/Specs.git"
-  when: is_incremental_setup|default(false) == false and not lookup('env', 'IS_CI')
+  when: is_incremental_setup|default(false) == false and not lookup('env', 'IS_CI') and cocoapods.rc != 0
 
 # The pod repo add just clone the repository.
 # Cocopods master is huge, and we need the HEAD only so we clone that during CI run.
 - name: CocoaPods specs install with git
   shell: bash -l -c "git clone --depth=1 https://github.com/CocoaPods/Specs.git ~/.cocoapods/repos/master"
-  when: is_incremental_setup|default(false) == false and lookup('env', 'IS_CI')
+  when: is_incremental_setup|default(false) == false and lookup('env', 'IS_CI') and cocoapods.rc != 0

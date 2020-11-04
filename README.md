@@ -285,3 +285,22 @@ after you ran the previous steps: `bitrise run provision-xamarin-vm`
 * This repository is meant to be used / tested with OS X El Capitan (10.11)
 * Other OS X versions should also work, but might require minor modifications
   * Previous OS X versions (up until 10.11) stored the `sshd_config` in `/etc/sshd_config` - this changed in `10.11` to `/etc/ssh/sshd_config`
+
+## Execute the base* tests
+
+### Requirements
+
+* molecule and testinfra installed: `pip3 install molecule testinfra`
+* anka installed: `brew cask install anka-virtualization`
+* base image in either stopped or suspended state name must be: `baseOS_10-15`
+
+### Execute the tests:
+
+* Go to `roles/tests`
+* Execute molecule tests: `molecule -s baseXcode test`
+* This command will create a simple anka vm with `molecule-test` name, execute the mentioned roles in the `baseXcode/converge.yml` file, executes the tests, delete the previously created anka vm`
+
+### Validate your existing machine
+
+* Go to `roles/tests` directory
+* Execute the following command: `molecule -s base verify`
