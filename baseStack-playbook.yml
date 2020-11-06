@@ -8,9 +8,10 @@
   any_errors_fatal: true
   vars:
     - param_user: vagrant
-    - XCODE_INSTALL_USER: XXXXX
-    - XCODE_INSTALL_PASSWORD: XXXXX
     - bitrise_cli_version: "1.43.0"
+  environment:
+    - GITHUB_ACCESS_TOKEN: XXXX
+    - BITRISE_DEN_VERSION: "32305174" # 1.15.1
   roles:
     - role: profiles
     - role: certs
@@ -18,6 +19,7 @@
     - role: brew-repos-fix
     - role: go
     - role: bitrise-cli
+    - role: bitrise-den
     - role: remote-access
     - role: java
     - role: jenv

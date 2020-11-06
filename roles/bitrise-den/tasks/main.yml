@@ -1,0 +1,22 @@
+---
+# ----------------------------------------
+- name: brew install jq
+  homebrew:
+    name: jq
+    state: present
+
+- name: "bitrise DEN: download"
+  script: download_den.sh
+
+- name: "bitrise DEN: extract"
+  unarchive:
+    src: /var/tmp/bitrise-den-darwin-amd64.zip
+    dest: "$HOME/"
+    exclude:
+      - bitrise-den-cli
+      - bitrise-den-server
+    mode: '0755'
+    remote_src: yes
+    creates: $HOME/bitrise-den-agent
+    owner: "{{ param_user }}"
+    group: staff
