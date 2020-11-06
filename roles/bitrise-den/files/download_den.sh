@@ -14,4 +14,5 @@ curl -s -n --show-error \
   --header "Accept: application/octet-stream" \
   --request GET \
   --location \
-  --output /var/tmp/bitrise-den-darwin-amd64.zip
+  --output /var/tmp/bitrise-den-darwin-amd64.zip \
+  "${DOWNLOAD_URL}"
