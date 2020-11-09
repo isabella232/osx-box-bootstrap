@@ -290,7 +290,7 @@ after you ran the previous steps: `bitrise run provision-xamarin-vm`
 
 ### Requirements
 
-* molecule and testinfra installed: `pip3 install molecule testinfra`
+* molecule, testinfra and ddt needs to be installed: `pip3 install molecule testinfra ddt`
 * anka installed: `brew cask install anka-virtualization`
 * base image in either stopped or suspended state name must be: `baseOS_10-15`
 

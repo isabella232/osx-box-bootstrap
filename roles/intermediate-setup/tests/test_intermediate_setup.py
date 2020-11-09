@@ -1,30 +1,52 @@
-def test_brew_packages_exist(host):
-    packages = ['ansible','flow','gdate','git','gs','hg','magick','python3','screen','tree','watchman','wget','yarn']
-    for package in packages:
-      assert host.exists(package)
+import unittest
+import os
+import testinfra.utils.ansible_runner
+from ddt import ddt, data
 
-def test_ansible_cfg_exists(host):
-    ansible_cfg = host.file("/home/linuxbrew/ansible.cfg" )
-    assert ansible_cfg.user == "linuxbrew"
 
-def test_firebase_cli_exists(host):
-    assert host.exists("firebase")
+@ddt
+class TestIntermediateSetup(unittest.TestCase):
+    def setUp(self):
+        self.host = testinfra.utils.ansible_runner.AnsibleRunner(
+            os.environ['MOLECULE_INVENTORY_FILE']).get_host('anka-instance')
 
-def test_bitrise_specific_folder(host):
-    folders = [
-        "/home/linuxbrew/bin",
-        "/home/linuxbrew/bitrise",
-        "/home/linuxbrew/bitrise/stepdata",
-        "/home/linuxbrew/bitrise/tools",
-        "/home/linuxbrew/build",
-        "/home/linuxbrew/deploy",
-        "/home/linuxbrew/git",
-        "/home/linuxbrew/profiles",
-        "Library/MobileDevice/Provisioning Profiles",
-        "/home/linuxbrew/stepdir"
-    ]
-    for folder in folders:
-        assert host.file(folder).exists
+    @data(
+        'ansible',
+        'flow',
+        'gdate',
+        'git',
+        'gs',
+        'hg',
+        'magick',
+        'python3',
+        'screen',
+        'tree',
+        'watchman',
+        'wget',
+        'yarn')
+    def test_brew_packages_exist(self, package):
+        self.assertTrue(self.host.exists(package))
 
-def test_pip_exists(host):
-    assert host.exists("pip3")
+    def test_ansible_cfg_exists(self):
+        ansible_cfg = self.host.file("/Users/vagrant/ansible.cfg")
+        self.assertEqual(ansible_cfg.user, 'vagrant')
+
+    def test_firebase_cli_exists(self):
+        self.assertTrue(self.host.exists("firebase"))
+
+    @data(
+        "/Users/vagrant/bin",
+        "/Users/vagrant/bitrise",
+        "/Users/vagrant/bitrise/stepdata",
+        "/Users/vagrant/bitrise/tools",
+        "/Users/vagrant/build",
+        "/Users/vagrant/deploy",
+        "/Users/vagrant/git",
+        "/Users/vagrant/profiles",
+        "/Users/vagrant/stepdir",
+        "Library/MobileDevice/Provisioning Profiles")
+    def test_bitrise_specific_folder(self, dir):
+        self.assertTrue(self.host.file(dir).exists)
+
+    def test_pip_exists(self):
+        self.assertTrue(self.host.exists("pip3"))

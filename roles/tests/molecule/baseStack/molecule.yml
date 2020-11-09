@@ -29,4 +29,4 @@ verifier:
   name: testinfra
   additional_files_or_dirs:
     - ../tests/*
-    - ../../../../brew-repos-fix/tests/*
+    - ../../../../intermediate-setup/tests/*.py
