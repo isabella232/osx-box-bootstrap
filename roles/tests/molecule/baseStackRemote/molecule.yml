@@ -16,17 +16,20 @@ provisioner:
     defaults:
       callback_whitelist: profile_tasks
     ssh_connection:
-      pipeline: true
+      pipelining: true
   inventory:
     host_vars:
       anka-instance:
         param_user: vagrant
         ansible_ssh_pass: vagrant
+        ansible_ssh_private_key_file: ~/vagrant_key
+        ansible_ssh_common_args: '-o ProxyCommand="ssh -i ~/id_rsa -W %h:%p -q administrator@10.87.60.201"'
   playbooks:
-    create: ../common-playbooks/create.yml
-    destroy: ../common-playbooks/destroy.yml
+    create: ../common-playbooks/create.remote.yml
+    destroy: ../common-playbooks/destroy.remote.yml
 verifier:
   name: testinfra
+  s: true
   additional_files_or_dirs:
-    - ../tests/*
-    - ../../../../brew-repos-fix/tests/*
+    - ../../baseStack/tests/*
+    - ../../../../intermediate-setup/tests/*.py
