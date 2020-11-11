@@ -1,5 +1,7 @@
 ## UPCOMING
 
+## `v2020_11_10`
+* `separate ruby-gems role to install gems and pods - reinstall gems in the weekly update`
 
 ## `v2020_11_04`
 * `disable the execution of brew cleanup during install`

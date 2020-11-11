@@ -1,17 +1,4 @@
 ---
-- name: Install ruby versions
-  shell: bash -l -c "rbenv install --skip-existing {{ item.version }}"
-  when: is_incremental_setup|default(false) == false
-  with_items:
-    - "{{ default_ruby }}"
-    - "{{ ruby_versions }}"
-
-- name: Set ruby latest to global
-  shell: bash -l -c "rbenv global {{ item.version }}"
-  when: is_incremental_setup|default(false) == false
-  with_items:
-    - "{{ default_ruby }}"
-
 - name: Install gem packages
   gem:
     name: "{{ item.name }}"
@@ -33,11 +20,11 @@
   register: cocoapods
 
 - name: CocoaPods specs install with pod
-  shell: bash -l -c "pod repo add master https://github.com/CocoaPods/Specs.git"
+  shell: bash -l -c "pod repo add master https://github.com/CocoaPods/Specs.git || pod repo update master"
   when: is_incremental_setup|default(false) == false and not lookup('env', 'IS_CI') and cocoapods.rc != 0
 
 # The pod repo add just clone the repository.
 # Cocopods master is huge, and we need the HEAD only so we clone that during CI run.
 - name: CocoaPods specs install with git
-  shell: bash -l -c "git clone --depth=1 https://github.com/CocoaPods/Specs.git ~/.cocoapods/repos/master"
+  shell: bash -l -c "git clone --depth=1 https://github.com/CocoaPods/Specs.git ~/.cocoapods/repos/master ||  git -C ~/.cocoapods/repos/master pull --ff-only --depth=1"
   when: is_incremental_setup|default(false) == false and lookup('env', 'IS_CI') and cocoapods.rc != 0

@@ -4,3 +4,5 @@
   roles:
     - role: ruby
       param_user: "linuxbrew"
+    - role: ruby-gems
+      param_user: "linuxbrew"
