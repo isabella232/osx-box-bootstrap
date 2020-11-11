@@ -1,19 +1,28 @@
 ---
-# Sync the tools/ dir
-- name: Sync the tools dir
-  synchronize:
-    src: tools/
-    dest: "/Users/vagrant/bitrise/tools"
-
-- name: make cmd-bridge executable
-  file:
-    path: "$HOME/bitrise/tools/cmd-bridge/_scripts/install_launchctl_plist_for_current_user.sh"
-    owner: "{{ param_user }}"
-    group: staff
+- name: Download cmd-bridge
+  get_url:
+    url: https://github.com/bitrise-io/cmd-bridge/releases/download/0.9.5/cmd-bridge-Darwin-x86_64
+    dest: /usr/local/bin/cmd-bridge
+    checksum: sha256:ccafaf8f600d9d887a8b215106c31f25cd6c570011d908bd6cf0b0b2991bb94d
     mode: '0755'
+  become: true
 
-- name: set up cmd-bridge
-  shell: bash -l -c "$HOME/bitrise/tools/cmd-bridge/_scripts/install_launchctl_plist_for_current_user.sh"
+- name: Create directory for cmd-bridge logs
+  file:
+    path: "{{ server_logs_dir_path }}"
+    state: directory
 
-- name: load plist
-  shell: bash -l -c "launchctl load /Users/vagrant/Library/LaunchAgents/bitrise.io.tools.cmd-bridge.plist"
+- name: Create directory for plist
+  file:
+    path: "{{ curr_user_lib_launch_agents_dir }}"
+    state: directory
+
+- name: Add cmd-bridge plist file
+  template:
+    src: cmd-bridge.plist.j2
+    dest: "~/Library/LaunchAgents/bitrise.io.tools.cmd-bridge.plist"
+    owner: "{{ param_user }}"
+    mode: "0755"
+
+- name: Load cmd-bridge plist
+  shell: "launchctl bootstrap gui/{{ ansible_effective_user_id }} ~/Library/LaunchAgents/bitrise.io.tools.cmd-bridge.plist"
