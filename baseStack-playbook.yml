@@ -30,4 +30,10 @@
     - role: java-tools
       tags: java-android
     - role: flutter
+    - role: ssh-setup
+    - role: intermediate-setup
+    - role: xcode-setup
+    - role: cmd-bridge
+    - role: misc-setup
+    - role: node
     - role: weekly-update-shared
