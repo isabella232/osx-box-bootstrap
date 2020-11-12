@@ -33,3 +33,4 @@ verifier:
   additional_files_or_dirs:
     - ../../baseStack/tests/*
     - ../../../../intermediate-setup/tests/*.py
+    - ../../../../cmd-bridge/tests/*.py
