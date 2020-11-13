@@ -1,0 +1,13 @@
+---
+simulators:
+  - 'watchOS 7.0'
+  - 'watchOS 6.1'
+  - 'watchOS 6.0'
+  - 'tvOS 14.0'
+  - 'tvOS 13.3'
+  - 'tvOS 13.2'
+  - 'tvOS 13.0'
+  - 'iOS 14.1'
+  - 'iOS 13.6'
+  - 'iOS 13.5'
+  - 'iOS 13.4'
