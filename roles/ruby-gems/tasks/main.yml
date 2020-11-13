@@ -1,4 +1,10 @@
 ---
+- name: Remove all (non default) gems
+  script: ruby_cleanup.sh
+  register: rubycleanupout
+  ignore_errors: true
+  changed_when: "'Clean up complete' in rubycleanupout.stdout"
+
 - name: Install gem packages
   gem:
     name: "{{ item.name }}"
