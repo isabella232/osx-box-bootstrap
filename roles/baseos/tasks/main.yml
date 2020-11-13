@@ -81,3 +81,27 @@
   become: true
   shell: defaults -currentHost write com.apple.screensaver idleTime 0
   when: screensaver_state.rc == 1
+
+- name: Check if Auto Login user is {{ param_user }}
+  become: true
+  shell: defaults read /Library/Preferences/com.apple.loginwindow | grep "autoLoginUser = {{ param_user }};"
+  register: autologinuser_state
+  changed_when: false
+  ignore_errors: true
+
+- name: Turn on Auto Login for {{ param_user }}
+  become: true
+  shell: defaults write /Library/Preferences/com.apple.loginwindow.plist autoLoginUser autoLoginUser "{{ param_user }}"
+  when: autologinuser_state.rc == 1
+
+- name: Check if hibernate is disabled
+  become: true
+  shell: pmset -g | grep "hibernatemode.*\ 0$"
+  register: hibernate_state
+  changed_when: false
+  ignore_errors: true
+
+- name: Disable hibernate
+  become: true
+  command: pmset -a hibernatemode 0
+  when: hibernate_state.rc == 1
