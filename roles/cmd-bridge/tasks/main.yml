@@ -24,5 +24,12 @@
     owner: "{{ param_user }}"
     mode: "0755"
 
+- name: cmd-bridge status
+  shell: ps auxww | grep cmd-bridge | grep -v grep
+  changed_when: false
+  ignore_errors: true
+  register: cmd_bridge_status
+
 - name: Load cmd-bridge plist
   shell: "launchctl bootstrap gui/{{ ansible_effective_user_id }} ~/Library/LaunchAgents/bitrise.io.tools.cmd-bridge.plist"
+  when: cmd_bridge_status.rc == 1
