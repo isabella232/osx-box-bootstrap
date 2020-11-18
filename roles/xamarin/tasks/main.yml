@@ -4,6 +4,7 @@
   homebrew_cask:
     name: android-sdk
     state: absent
+  ignore_errors: true
 
 - name: Remove manually installed android ndk
   become: true

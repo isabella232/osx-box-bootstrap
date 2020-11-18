@@ -1,5 +1,8 @@
 ## UPCOMING
 
+## `v2020_11_16`
+* `switch Xcode to 12.2 Release`
+
 ## `v2020_11_13`
 * `cleanup gems before install to prevent dependency issues - fixes fastlane install failures`
 
