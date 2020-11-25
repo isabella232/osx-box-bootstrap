@@ -57,17 +57,13 @@
     force: false
     mode: "0777"
 
-- name: Install Android packages with SDK Manager
-  become: true
-  environment:
-    PATH: "{{ android_home }}/cmdline-tools/tools/bin:{{ ansible_env.PATH }}"
-  shell: "(echo y | sdkmanager --verbose '{{ item }}')"  # noqa 204 306
-  retries: 3
-  delay: 3
+- name: Install SDKs
+  include:
+    file: sdk-install.yml
   with_items:
     - "{{ sdkmanagerpackages }}"
-  args:
-    creates: "{{ android_home }}/add-ons/addon-google_apis-google-21/package.xml"
+  loop_control:
+    loop_var: sdk
 
 - name: Recursively change ownership of ANDROID_HOME on Xcode
   become: true
