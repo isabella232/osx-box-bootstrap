@@ -58,7 +58,7 @@
     mode: "0777"
 
 - name: Install SDKs
-  include:
+  include_tasks:
     file: sdk-install.yml
   with_items:
     - "{{ sdkmanagerpackages }}"
