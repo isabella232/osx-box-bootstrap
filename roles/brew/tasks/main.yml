@@ -29,7 +29,7 @@
   when: is_brew_installed is failed
 
 - name: Execute the brew_installer.sh
-  shell: /tmp/brew_installer.sh | tee /tmp/brew_install.log
+  shell: /tmp/brew_installer.sh | tee /tmp/brew_install.log  # noqa 306
   when: is_brew_installed is failed
 
 - name: Remove the brew_installer.sh

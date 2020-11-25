@@ -16,7 +16,7 @@
       - bitrise-den-cli
       - bitrise-den-server
     mode: '0755'
-    remote_src: yes
+    remote_src: true
     creates: $HOME/bitrise-den-agent
     owner: "{{ param_user }}"
     group: staff
