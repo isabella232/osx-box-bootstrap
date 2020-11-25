@@ -23,6 +23,9 @@ elif test $2 = 11.7 ; then
 elif test $2 = 12.1 ; then
   export SIMULATOR_SEED=baseXcode_12.1-1603999553
   export STACK_SEED=baseSimulators_12.1-1604048303
+elif test $2 = 12.2 ; then
+  export SIMULATOR_SEED=baseXcode_12.2-1606134794
+  export STACK_SEED=baseSimulators_12.2-1606163175
 fi
 
 export PACKER_LOG=0 # 1 to debug

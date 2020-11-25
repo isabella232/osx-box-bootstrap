@@ -3,14 +3,22 @@
   gem:
     name: xcode-install
     user_install: false
-  become: true
+    executable: "$HOME/.rbenv/shims/gem"
 
 - name: Install xcode version based on xcode_version variable, it could take a while. About an hour, so be patient.
   shell: bash -l -c "xcversion install '{{ xcode_version }}'"
-  become: true
   environment:
     XCODE_INSTALL_USER: "{{ XCODE_INSTALL_USER }}"
     XCODE_INSTALL_PASSWORD: "{{ XCODE_INSTALL_PASSWORD }}"
+
+- name: Prepare testapps directories
+  become: true
+  file:
+    path: /opt/bitrise/testapps
+    state: directory
+    owner: "{{ param_user }}"
+    group: staff
+    mode: '0755'
 
 - name: Git checkout
   git:
