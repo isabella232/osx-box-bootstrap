@@ -1,5 +1,8 @@
 ## UPCOMING
 
+## `v2020_12_01`
+* `aws-cli preinstalled`
+
 ## `v2020_11_16`
 * `switch Xcode to 12.2 Release`
 
