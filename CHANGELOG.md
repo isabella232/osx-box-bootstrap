@@ -1,5 +1,8 @@
 ## UPCOMING
 
+## `v2020_12_01`
+* `aws-cli preinstalled`
+
 ## `v2020_11_10`
 * `separate ruby-gems role to install gems and pods - reinstall gems in the weekly update`
 
