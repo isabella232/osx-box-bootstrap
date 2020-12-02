@@ -11,5 +11,15 @@
     state: unlinked
   when: ansible_distribution == 'Ubuntu'
 
-- name: Install rubys and gems
-  import_tasks: ruby.yml
+- name: Install ruby versions
+  shell: bash -l -c "rbenv install --skip-existing {{ item.version }}"
+  when: is_incremental_setup|default(false) == false
+  with_items:
+    - "{{ default_ruby }}"
+    - "{{ ruby_versions }}"
+
+- name: Set ruby latest to global
+  shell: bash -l -c "rbenv global {{ item.version }}"
+  when: is_incremental_setup|default(false) == false
+  with_items:
+    - "{{ default_ruby }}"

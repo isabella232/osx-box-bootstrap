@@ -19,4 +19,5 @@
     - role: brew-repos-fix
     - role: tmp-setup
     - role: ruby
+    - role: ruby-gems
     - role: install-xcode

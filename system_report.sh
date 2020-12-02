@@ -71,6 +71,7 @@ ver_line="$(xclogparser version)";                            echo "* $ver_line"
 ver_line="$(screen --version | awk '{print $1, $3}')";        echo "* $ver_line"
 ver_line="$(applesimutils --version | awk '{print $1, $3}')"; echo "* $ver_line"
 ver_line="$(openconnect --version | head -n 1)";              echo "* $ver_line"
+ver_line="$(aws --version)" ;                                 echo "* aws-cli: $ver_line"
 
 
 
@@ -192,8 +193,8 @@ echo
 
 echo
 echo "=== System infos ======================="
-info_line="$( df -gh / | awk '{printf "%14s %12s %12s\n", $1, $2, $4}' )" ;            
-echo "* Free disk space: 
+info_line="$( df -gh / | awk '{printf "%14s %12s %12s\n", $1, $2, $4}' )" ;
+echo "* Free disk space:
 $info_line"
 echo "========================================"
 echo

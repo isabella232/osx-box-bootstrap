@@ -12,4 +12,5 @@ brew_packages:
   - name: "screen"
   - name: "applesimutils"
   - name: "openconnect"
+  - name: "awscli"
 ...

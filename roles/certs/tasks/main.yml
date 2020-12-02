@@ -12,10 +12,10 @@
 - name: Apple certificate download
   get_url:
     url: https://www.apple.com/certificateauthority/AppleWWDRCAG3.cer
-    dest: $HOME/apple_cert.cer
+    dest: $HOME/AppleWWDRCAG3.cer
     checksum: md5:08a45128fa238443623421dd2c9887ab
-  when: AppleWWDRCAG3_installed == 1
+  when: AppleWWDRCAG3_installed.rc == 1
 
 - name: Add Apple certificate
-  shell: bash -l -c "sudo security add-certificates -k /Library/Keychains/System.keychain $HOME/apple_cert.cer"
-  when: AppleWWDRCAG3_installed == 1
+  shell: bash -l -c "sudo security add-certificates -k /Library/Keychains/System.keychain $HOME/AppleWWDRCAG3.cer"
+  when: AppleWWDRCAG3_installed.rc == 1

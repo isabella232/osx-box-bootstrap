@@ -1,5 +1,16 @@
 ## UPCOMING
 
+## `v2020_12_01`
+* `aws-cli preinstalled`
+
+## `v2020_11_16`
+* `switch Xcode to 12.2 Release`
+
+## `v2020_11_13`
+* `cleanup gems before install to prevent dependency issues - fixes fastlane install failures`
+
+## `v2020_11_10`
+* `separate ruby-gems role to install gems and pods - reinstall gems in the weekly update`
 
 ## `v2020_11_04`
 * `disable the execution of brew cleanup during install`
