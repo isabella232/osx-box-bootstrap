@@ -1,5 +1,8 @@
 ## UPCOMING
 
+## `v2020_12_03`
+* `Sample ios and macos automated tests`
+
 ## `v2020_12_01`
 * `aws-cli preinstalled`
 
