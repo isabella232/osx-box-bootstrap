@@ -1,5 +1,8 @@
 ## UPCOMING
 
+## `v2020_12_08`
+* `Cocoapods setup update, from 1.8 CND is by default, no specs master required`
+
 ## `v2020_12_01`
 * `aws-cli preinstalled`
 

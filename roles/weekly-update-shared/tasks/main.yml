@@ -44,11 +44,6 @@
 # --- pre-installed tool cache updates ---
 # ----------------------------------------
 
-- name: "CocoaPods: pod setup"
-  shell: bash -l -c "pod setup || pod setup"
-- name: "CocoaPods: pod repo update"
-  shell: bash -l -c "pod repo update"
-
 # curl used in place of get_url or uri module
 # Shells that use pipes should set the pipefail option
 - name: "firebase (CLI)"  # noqa 303 306
