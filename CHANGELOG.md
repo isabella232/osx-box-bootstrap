@@ -1,5 +1,8 @@
 ## UPCOMING
 
+## `v2020_12_08`
+* `Removed Specs repo master, for it is not necessary from 1.8 and up`
+
 ## `v2020_12_03`
 * `Sample ios and macos automated tests`
 
