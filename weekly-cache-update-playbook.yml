@@ -9,9 +9,9 @@
   become_method: sudo
   any_errors_fatal: true
   vars:
-    - ansible_sudo_pass: vagrant
-    - param_user: vagrant
-    - bitrise_cli_version: "{{ lookup('file', '/Users/vagrant/git/cli_version.txt') }}"
+    ansible_sudo_pass: vagrant
+    param_user: vagrant
+    bitrise_cli_version: "{{ lookup('file', '/Users/vagrant/git/cli_version.txt') }}"
   roles:
     - role: profiles
     - role: ruby-gems
@@ -26,8 +26,10 @@
     - role: jenv
     - role: android
     - role: android-apk-tools
+    - role: node
     - role: xamarin
       when: is_allow_weekly_xamarin_provision | default("no") | string  == "yes"
     - role: java-tools
-      tags: java-android
+      tags:
+        - java-android
     - role: flutter

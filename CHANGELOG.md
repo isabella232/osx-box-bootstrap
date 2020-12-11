@@ -1,5 +1,8 @@
 ## UPCOMING
 
+## `v2020_12_09`
+* `appcenter-cli updated to 2.7.3`
+
 ## `v2020_12_08`
 * `Removed Specs repo master, for it is not necessary from 1.8 and up`
 
