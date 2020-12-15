@@ -5,6 +5,10 @@
   ignore_errors: true
   register: brew_repository_core_set
 
+- name: brew-core-fix output
+  debug:
+    msg: "STDOUT: {{ brew_repository_core_set.stdout }}, STDERR: {{ brew_repository_core_set.stderr }} "
+
 - name: Setup brew to use our own fork of homebrew core to ensure versions
   script: setup_brew_core.sh
   when: brew_repository_core_set is failed
