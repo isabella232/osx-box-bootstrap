@@ -8,8 +8,8 @@
   remote_user: vagrant
   become_method: sudo
   vars:
-    - ansible_sudo_pass: vagrant
-    - param_user: vagrant
+    ansible_sudo_pass: vagrant
+    param_user: vagrant
   roles:
     - ssh-setup
     - profiles

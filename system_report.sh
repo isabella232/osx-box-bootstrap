@@ -124,9 +124,9 @@ echo
 
 echo
 echo "=== NPM global packages =========================="
-ver_line="$(cordova --version)" ;                echo "* Cordova: $ver_line"
-ver_line="$(ionic --version)" ;                  echo "* Ionic: $ver_line"
-ver_line="$(appcenter --version)" ;              echo "* AppCenter CLI: $ver_line"
+ver_line="$(cordova --version)" ;                       echo "* Cordova: $ver_line"
+ver_line="$(ionic --version)" ;                         echo "* Ionic: $ver_line"
+ver_line="$(appcenter --version | awk '{print $3}')" ;  echo "* Appcenter-CLI version: $ver_line"
 echo "========================================"
 echo
 
