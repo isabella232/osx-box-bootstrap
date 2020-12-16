@@ -1,4 +1,9 @@
 ---
+- name: Fix python@3.9
+  shell: . ~/.bash_profile && brew link python@3.9
+  changed_when: false
+  ignore_errors: true
+
 - name: Check if repository for brew core is correct
   shell: ". ~/.bash_profile && grep mirrors/github.com/bitrise-io $(brew --repository)/Library/Taps/homebrew/homebrew-core/.git/config"  # yamllint disable-line rule:line-length
   changed_when: false
