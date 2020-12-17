@@ -1,8 +1,4 @@
 ---
-#
-# Ansible playbook to prepare a Bitrise OS X VM/box, used through vagrant
-#
-
 - hosts: all
   # accelerate: true
   remote_user: vagrant
@@ -10,25 +6,27 @@
   any_errors_fatal: true
   vars:
     ansible_sudo_pass: vagrant
+    ansible_password: vagrant
     param_user: vagrant
-    bitrise_cli_version: "{{ lookup('file', '/Users/vagrant/git/cli_version.txt') }}"
+    bitrise_cli_version: "1.41.0"
+    remote_port: 10000
   roles:
     - role: profiles
-    - role: ruby-gems
+#    - role: ruby-gems
     - role: certs
     - role: ssh-setup
     - role: brew-repos-fix
     - role: weekly-update-shared
     - role: go
-    - role: bitrise-cli
-    - role: remote-access
-    - role: java
-    - role: jenv
-    - role: android
-    - role: android-apk-tools
-    - role: xamarin
-      when: is_allow_weekly_xamarin_provision | default("no") | string  == "yes"
-    - role: java-tools
-      tags:
-        - java-android
-    - role: flutter
+#    - role: bitrise-cli
+#    - role: remote-access
+#    - role: java
+#    - role: jenv
+#    - role: android
+#    - role: android-apk-tools
+#    - role: xamarin
+#      when: is_allow_weekly_xamarin_provision | default("no") | string  == "yes"
+#    - role: java-tools
+#      tags:
+#        - java-android
+#    - role: flutter
