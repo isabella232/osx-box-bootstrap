@@ -17,10 +17,10 @@
     - role: ssh-setup
     - role: brew-repos-fix
     - role: weekly-update-shared
+    - role: java
     - role: go
 #    - role: bitrise-cli
 #    - role: remote-access
-#    - role: java
 #    - role: jenv
 #    - role: android
 #    - role: android-apk-tools
