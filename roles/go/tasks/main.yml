@@ -1,11 +1,8 @@
 ---
-## Go
-# Gopath is $HOME/go
 - name: brew install go
   homebrew:
     name: go
     state: present
-    update_homebrew: true
 
 - name: prepare GOPATH dirs
   file:
@@ -16,4 +13,3 @@
     - { fold_path: 'src' }
     - { fold_path: 'bin' }
     - { fold_path: 'pkg' }
-...
