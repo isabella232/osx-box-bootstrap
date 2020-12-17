@@ -2,5 +2,7 @@
 - name: Converge
   hosts: all
   roles:
+    - role: brew-repos-fix
+      param_user: "linuxbrew"
     - role: intermediate-setup
       param_user: "linuxbrew"

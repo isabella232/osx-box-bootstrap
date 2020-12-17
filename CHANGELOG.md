@@ -1,5 +1,8 @@
 ## UPCOMING
 
+## `v2020_12_16`
+* `brew local mirror fixes`
+
 ## `v2020_12_09`
 * `appcenter-cli updated to 2.7.3`
 
