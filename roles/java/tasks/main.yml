@@ -7,7 +7,6 @@
   shell: launchctl list | grep com.oracle.java.Helper-Tool > /dev/null 2>&1
   register: result
   ignore_errors: true
-  no_log: true
 - name: Display Java helper tools
   debug:
     msg: "com.oracle.java.Helper-Tool present {{ result.rc == 0 }}"
@@ -22,7 +21,6 @@
   shell: launchctl list | grep com.oracle.java.Java-Updater > /dev/null 2>&1
   register: result
   ignore_errors: true
-  no_log: true
 - name: Display Java updater
   debug:
     msg: "com.oracle.java.Java-Updater present {{ result.rc == 0 }}"
