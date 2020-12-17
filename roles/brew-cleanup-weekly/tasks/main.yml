@@ -3,3 +3,8 @@
   shell: /usr/local/bin/brew cleanup
   changed_when: false
   ignore_errors: true
+  register: brew_cleanup
+
+- name: brew debug
+  debug:
+    msg: "STDOUT: {{ brew_cleanup.stdout }}, STDERR: {{ brew_cleanup.stderr }}"
