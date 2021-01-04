@@ -1,0 +1,13 @@
+---
+- name: Test Simulator installed - {{ item }}
+  shell: bash -l -c "xcversion simulators | grep '(installed)' | grep '{{ item }}'"
+  register: simulator_installed
+  changed_when: false
+  ignore_errors: true
+
+- name: Install xcode simulators - {{ item }}
+  shell: bash -l -c "xcversion simulators --install='{{ item }}'"
+  environment:
+    XCODE_INSTALL_USER: "{{ XCODE_INSTALL_USER }}"
+    XCODE_INSTALL_PASSWORD: "{{ XCODE_INSTALL_PASSWORD }}"
+  when: simulator_installed.rc == 1

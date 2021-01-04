@@ -3,6 +3,9 @@
 ## `v2020_12_16`
 * `brew local mirror fixes`
 
+## `v2020_12_14`
+* split out simulators and test projects from xcode install
+
 ## `v2020_12_09`
 * `appcenter-cli updated to 2.7.3`
 

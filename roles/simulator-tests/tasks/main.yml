@@ -1,0 +1,39 @@
+---
+- name: Prepare testapps directories
+  become: true
+  file:
+    path: /opt/bitrise/testapps
+    state: directory
+    owner: "{{ param_user }}"
+    group: staff
+    mode: '0755'
+
+- name: Git checkout
+  git:
+    repo: "https://github.com/bitrise-io/xcode-test-apps"
+    dest: "/opt/bitrise/testapps"
+    version: "1.0"
+
+# Sometimes on the first run the simulator list could be empty (based on experience doing this manually), hence the retries.
+- name: Get simulator for latest iOS version
+  script: get_latest_simulator.py
+  environment:
+    XCODE_INSTALL_USER: "{{ XCODE_INSTALL_USER }}"
+    XCODE_INSTALL_PASSWORD: "{{ XCODE_INSTALL_PASSWORD }}"
+  register: ios_simulator
+  retries: 3
+  delay: 3
+  until: ios_simulator is not failed
+
+- name: Update target iOS version
+  shell: bash -l -c "sed -i '' 's/IPHONEOS_DEPLOYMENT_TARGET = .*;/IPHONEOS_DEPLOYMENT_TARGET = {{ ios_simulator.stdout.split()[0] }};/g' /opt/bitrise/testapps/bitrise/bitrise.xcodeproj/project.pbxproj"
+
+- name: Xcodebuild iOS
+  shell: xcodebuild test -project bitrise.xcodeproj -scheme bitrise -destination 'platform=iOS Simulator,id={{ ios_simulator.stdout.split()[1] }}'
+  args:
+    chdir: "/opt/bitrise/testapps/bitrise"
+
+- name: Xcodebuild macOS
+  shell: xcodebuild test -project bitrise-mac.xcodeproj -scheme bitrise-mac -destination 'platform=macOS,arch=x86_64'
+  args:
+    chdir: "/opt/bitrise/testapps/bitrise-mac"

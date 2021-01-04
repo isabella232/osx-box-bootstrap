@@ -1,0 +1,16 @@
+---
+- name: load simulator versions
+  include_vars: "{{ xcode_version }}.yml"
+
+- name: Install simulators
+  include: install.yml
+  with_items:
+    - "{{ simulators }}"
+  loop_control:
+    loop_var: item
+
+- name: Cleanup cached downloads
+  shell: bash -l -c "xcversion cleanup"
+  environment:
+    XCODE_INSTALL_USER: "{{ XCODE_INSTALL_USER }}"
+    XCODE_INSTALL_PASSWORD: "{{ XCODE_INSTALL_PASSWORD }}"
