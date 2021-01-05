@@ -1,12 +1,41 @@
 ---
+- name: Fix python@3.9
+  shell: . ~/.bash_profile && brew link python@3.9
+  changed_when: false
+  ignore_errors: true
+
+- name: "Ensure /opt/bitrise exists"
+  file:
+    path: /opt/bitrise
+    state: directory  # yamllint disable-line rule:truthy
+    owner: "{{ param_user }}"
+    group: wheel
+    mode: "0755"
+  become: true
+
+- name: Update brew
+  shell: . ~/.bash_profile && brew update
+  changed_when: false
+  ignore_errors: true
+
 - name: Check if repository for brew core is correct
   shell: ". ~/.bash_profile && grep mirrors/github.com/bitrise-io $(brew --repository)/Library/Taps/homebrew/homebrew-core/.git/config"  # yamllint disable-line rule:line-length
   changed_when: false
   ignore_errors: true
   register: brew_repository_core_set
 
-- name: Setup brew to use our own fork of homebrew core to ensure versions
-  script: setup_brew_core.sh
+- name: Setup script and fix brew core
+  block:
+  - name: Copy brew-core-fixer
+    template:
+      src: setup_brew_core.sh.j2
+      dest: /opt/bitrise/setup_brew_core.sh
+      owner: "{{ param_user }}"
+      mode: "0755"
+
+  - name: Setup brew to use our own fork of homebrew core to ensure versions
+    shell: /opt/bitrise/setup_brew_core.sh
+
   when: brew_repository_core_set is failed
 
 - name: Check if repository for brew cask is correct
@@ -15,6 +44,16 @@
   ignore_errors: true
   register: brew_repository_cask_set
 
-- name: Setup brew to use our own fork of homebrew cask to ensure versions
-  script: setup_brew_cask.sh
+- name: Setup script and fix brew cask
+  block:
+  - name: Copy brew-cask-fixer
+    template:
+      src: setup_brew_cask.sh.j2
+      dest: /opt/bitrise/setup_brew_cask.sh
+      owner: "{{ param_user }}"
+      mode: "0755"
+
+  - name: Setup brew to use our own fork of homebrew cask to ensure versions
+    shell: /opt/bitrise/setup_brew_cask.sh
+
   when: brew_repository_cask_set is failed

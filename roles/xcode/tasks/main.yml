@@ -1,0 +1,21 @@
+---
+- name: Fail if we are not on Catalina
+  fail:
+    msg: "Looks like you are trying to enable accessibility on not Catalina version of MacOS. It is not allowed because the syntax of TCC might be changed."
+  when: ansible_facts['ansible_distribution'] == 'MacOSX' and ansible_facts['distribution_major_version'] == "10"
+
+- name: Install xcode-install
+  gem:
+    name: xcode-install
+    user_install: false
+    executable: "$HOME/.rbenv/shims/gem"
+
+- name: Install xcode version based on xcode_version variable, it could take a while. About an hour, so be patient.
+  shell: bash -l -c "xcversion install '{{ xcode_version }}'"
+  environment:
+    XCODE_INSTALL_USER: "{{ XCODE_INSTALL_USER }}"
+    XCODE_INSTALL_PASSWORD: "{{ XCODE_INSTALL_PASSWORD }}"
+
+- name: Enable accessibility to xcode
+  script: enable_accessibility.sh
+  become: true

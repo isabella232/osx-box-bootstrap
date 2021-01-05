@@ -30,6 +30,13 @@ workflows:
                 # Instead just moved to /var/tmp it is way faster and it runs only during ci.
                 mv ~/.cocoapods/repos/master /var/tmp/
 
+  _install-dependencies:
+    steps:
+      - script-runner:
+          title: Install dependencies
+          inputs:
+            - file_path: _scripts/molecule/install_dependencies.sh
+
   _ansible-play:
     steps:
       - script:
@@ -40,6 +47,8 @@ workflows:
                 #!/usr/bin/env bash
 
                 set -e
+
+                pip install -r _scripts/molecule/requirements.txt --log requirements_install.log
 
                 ansible-playbook \
                 -vv \
@@ -278,11 +287,9 @@ workflows:
             - message: "$PR_CREATE_TIME - $PR_CLOSED_TIME"
 
   _run_molecule_test:
+    before_run:
+      - _install-dependencies
     steps:
-      - script-runner:
-          title: Install dependencies
-          inputs:
-            - file_path: _scripts/molecule/install_dependencies.sh
       - change-workdir@1:
           title: hopp into the test folder
           inputs:

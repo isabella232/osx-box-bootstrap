@@ -20,4 +20,6 @@
     - role: tmp-setup
     - role: ruby
     - role: ruby-gems
-    - role: install-xcode
+    - role: xcode
+    - role: simulators
+    - role: simulator-test

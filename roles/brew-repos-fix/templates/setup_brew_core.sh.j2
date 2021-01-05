@@ -1,0 +1,24 @@
+#!/bin/bash
+
+set -e
+
+source {{ ansible_env.HOME }}/.bashrc
+
+brew_repository=$(brew --repository)
+
+rm -rf "$brew_repository/Library/Taps/homebrew"
+
+rm -rf {{ ansible_env.HOME }}/mirrors/github.com/bitrise-io/homebrew-core
+
+mkdir -p {{ ansible_env.HOME }}/mirrors/github.com/bitrise-io/
+
+git clone --bare https://github.com/bitrise-io/homebrew-core {{ ansible_env.HOME }}/mirrors/github.com/bitrise-io/homebrew-core
+
+export HOMEBREW_CORE_GIT_REMOTE="{{ ansible_env.HOME }}/mirrors/github.com/bitrise-io/homebrew-core"
+
+brew install a || true
+
+# Unshallowing the homebrew-core, just in case. Unshallow repo is required for some use-cases.
+# This operates on a local mirror, so it is not putting load on GitHub.
+# The dummy brew install above should do this automatically, so we swallow errors.
+git -C "$brew_repository/Library/Taps/homebrew/homebrew-core" fetch --unshallow || true

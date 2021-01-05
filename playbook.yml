@@ -13,6 +13,7 @@
   roles:
     - ssh-setup
     - profiles
+    - brew-repos-fix
     - intermediate-setup
     - xcode-setup
     - cmd-bridge

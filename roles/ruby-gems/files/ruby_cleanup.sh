@@ -6,7 +6,6 @@ uninstall() {
     gem uninstall "${gem}" -aIx
   done
   gem list
-  gem install bundler
 }
 
 #rbenv versions --bare
