@@ -9,7 +9,7 @@
 - name: ensure .ssh folder is ok
   become: true
   file:
-    path: /{{ home.path }}/{{ param_user }}/.ssh
+    path: "{{ ansible_env.HOME }}/.ssh"
     state: directory
     owner: "{{ param_user }}"
     mode: "0700"
@@ -29,6 +29,7 @@
 - name: ssh connection config (user specific)
   copy:
     src: files/ssh-config
-    dest: "/{{ home.path }}/{{ param_user }}/.ssh/config"
+    dest: "{{ ansible_env.HOME }}/.ssh/config"
     owner: "{{ param_user }}"
+    group: "{{ param_group }}"
     mode: "0600"

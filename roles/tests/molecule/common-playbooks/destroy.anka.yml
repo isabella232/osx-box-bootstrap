@@ -1,0 +1,28 @@
+---
+- name: Destroy
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  no_log: false
+  tasks:
+    - name: Is test vm exists?
+      shell: anka list | grep molecule-test
+      ignore_errors: true
+      register: anka_vm
+
+    - name: Delete anka vm
+      shell: anka delete --yes molecule-test
+      when: anka_vm.rc == 0
+
+    - name: Populate instance config
+      set_fact:
+        instance_conf: {}
+
+    - name: Dump instance config
+      copy:
+        content: |
+          # Molecule managed
+
+          {{ instance_conf | to_json | from_json | to_yaml }}
+        dest: "{{ molecule_instance_config }}"
+      when: server.changed | default(false) | bool

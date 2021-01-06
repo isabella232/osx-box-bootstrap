@@ -9,22 +9,26 @@ provisioner:
   name: ansible
   lint:
     name: ansible-lint
+  env:
+    IS_CI: "true"
+    HOMEBREW_NO_AUTO_UPDATE: 1
   log: true
   config_options:
     defaults:
       callback_whitelist: profile_tasks
-  env:
-    IS_CI: "true"
   inventory:
     host_vars:
       instance:
         ansible_user: vagrant
         ansible_ssh_pass: vagrant
         param_user: vagrant
+        param_group: wheel
+        param_user_home: Users
   playbooks:
     create: ${MOLECULE_CREATE_PLAYBOOK:-"../common-playbooks/create.anka.yml"}
     destroy: ${MOLECULE_DESTROY_PLAYBOOK:-"../common-playbooks/destroy.anka.yml"}
 verifier:
   name: testinfra
+  s: true
   additional_files_or_dirs:
-    - ../../../../baseos/tests/*
+    - ../../../../ssh-setup/tests/*

@@ -2,9 +2,11 @@
 dependency:
   name: galaxy
 driver:
-  name: delegated
+  name: docker
 platforms:
-  - name: anka-instance
+  - name: instance
+    image: molecule-test
+    dockerfile: ../Dockerfile.j2
 provisioner:
   name: ansible
   lint:
@@ -18,15 +20,14 @@ provisioner:
       callback_whitelist: profile_tasks
   inventory:
     host_vars:
-      anka-instance:
-        ansible_user: vagrant
-        bitrise_cli_version: 1.42.0
-        ansible_ssh_pass: vagrant
-  playbooks:
-    create: ../common-playbooks/create.yml
-    destroy: ../common-playbooks/destroy.yml
+      instance:
+        ansible_user: linuxbrew
+        ansible_ssh_pass: linuxbrew
+        param_user: linuxbrew
+        param_group: linuxbrew
+        param_user_home: home
 verifier:
   name: testinfra
   s: true
   additional_files_or_dirs:
-    - ../../../../bitrise-cli/tests/*
+    - ../../../../ssh-setup/tests/*

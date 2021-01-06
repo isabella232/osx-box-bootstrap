@@ -4,7 +4,7 @@ dependency:
 driver:
   name: delegated
 platforms:
-  - name: anka-instance
+  - name: instance
 provisioner:
   name: ansible
   lint:
@@ -19,12 +19,12 @@ provisioner:
       pipeline: true
   inventory:
     host_vars:
-      anka-instance:
+      instance:
         param_user: vagrant
         ansible_ssh_pass: vagrant
   playbooks:
-    create: ../common-playbooks/create.yml
-    destroy: ../common-playbooks/destroy.yml
+    create: ${MOLECULE_CREATE_PLAYBOOK:-"../common-playbooks/create.anka.yml"}
+    destroy: ${MOLECULE_DESTROY_PLAYBOOK:-"../common-playbooks/destroy.anka.yml"}
 verifier:
   name: testinfra
   additional_files_or_dirs:

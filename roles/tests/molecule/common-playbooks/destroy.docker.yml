@@ -5,18 +5,14 @@
   gather_facts: false
   no_log: false
   tasks:
-    # Developer must implement.
-
-    # Mandatory configuration for Molecule to function.
-
-    - name: Is test vm exists?
-      shell: anka list | grep molecule-test
+    - name: Is test container exists?
+      shell: docker ps -a | grep molecule-test
       ignore_errors: true
-      register: anka_vm
+      register: container
 
-    - name: Delete anka vm
-      shell: anka delete --yes molecule-test
-      when: anka_vm.rc == 0
+    - name: Delete container
+      shell: docker stop molecule-test && docker rm -vf molecule-test
+      when: container.rc == 0
 
     - name: Populate instance config
       set_fact:
@@ -25,8 +21,6 @@
     - name: Dump instance config
       copy:
         content: |
-          # Molecule managed
-
           {{ instance_conf | to_json | from_json | to_yaml }}
         dest: "{{ molecule_instance_config }}"
       when: server.changed | default(false) | bool

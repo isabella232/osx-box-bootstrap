@@ -5,7 +5,7 @@ import testinfra.utils.ansible_runner
 class TestBaseOS(unittest.TestCase):
 
     def setUp(self):
-        self.host = testinfra.utils.ansible_runner.AnsibleRunner(os.environ['MOLECULE_INVENTORY_FILE']).get_host('anka-instance')
+        self.host = testinfra.utils.ansible_runner.AnsibleRunner(os.environ['MOLECULE_INVENTORY_FILE']).get_host('instance')
 
     def test_autoupdates_are_disabled(self):
         self.assertEqual(self.host.run("sudo softwareupdate --schedule | grep -q 'off'").rc, 0)

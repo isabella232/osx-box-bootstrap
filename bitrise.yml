@@ -131,25 +131,21 @@ workflows:
             set -e
             yamllint -s -c ./yamllint.yaml .
 
-    # Not yet implemented in this repository
-
-    # - build-router-start@0.11.3:
-    #     run_if: .IsCI
-    #     inputs:
-    #     - wait_for_builds: "true"
-    #     - workflows: |-
-    #         intermediate-setup-test
-    #         weekly-cache-update-test
-    #         test_ruby
-    #         test_node
-    #         test_android
-    #         test_ssh-setup
-    #         test_flutter
-    #         test_go
-    #         test_bitrise-cli
-    #         test_remote-access
-    #         test_intermediate-setup
-    #     - access_token: $BITRISE_ACCESS_TOKEN
+    - build-router-start@0.11.3:
+        run_if: .IsCI
+        inputs:
+        - wait_for_builds: "true"
+        - workflows: |-
+            test_android
+            test_ruby
+            test_node
+            test_go
+            test_ssh-setup
+            test_flutter
+            test_bitrise-cli
+            test_remote-access
+            test_intermediate-setup
+        - access_token: $BITRISE_ACCESS_TOKEN
 
   perform-weekly-cache-update:
     after_run:

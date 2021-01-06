@@ -4,7 +4,7 @@ import testinfra.utils.ansible_runner
 
 class TestBrewFixes(unittest.TestCase):
     def setUp(self):
-        self.host = testinfra.utils.ansible_runner.AnsibleRunner(os.environ['MOLECULE_INVENTORY_FILE']).get_host('anka-instance')
+        self.host = testinfra.utils.ansible_runner.AnsibleRunner(os.environ['MOLECULE_INVENTORY_FILE']).get_host('instance')
 
     def test_brew_installed(self):
         self.assertTrue(self.host.run_expect([0], 'source ~/.bash_profile && brew --help'))

@@ -20,7 +20,7 @@
         - name: Populate instance config dict
           set_fact:
             instance_conf_dict: {
-              'instance': "anka-instance",
+              'instance': "instance",
               'address': "127.0.0.1",
               'user': "vagrant",
               'port': "10000",

@@ -4,27 +4,28 @@ dependency:
 driver:
   name: delegated
 platforms:
-  - name: anka-instance
+  - name: instance
 provisioner:
   name: ansible
   lint:
     name: ansible-lint
+  env:
+    IS_CI: "true"
+    HOMEBREW_NO_AUTO_UPDATE: 1
   log: true
   config_options:
     defaults:
       callback_whitelist: profile_tasks
-  env:
-    IS_CI: "true"
   inventory:
     host_vars:
-      anka-instance:
+      instance:
         ansible_user: vagrant
         ansible_ssh_pass: vagrant
   playbooks:
-    create: ../common-playbooks/create.yml
-    destroy: ../common-playbooks/destroy.yml
+    create: ../common-playbooks/create.remote.yml
+    destroy: ../common-playbooks/destroy.remote.yml
 verifier:
   name: testinfra
+  s: true
   additional_files_or_dirs:
-    - ../../../../ruby/tests/*
-    - ../../../../ruby-gems/tests/*
+    - ../../../../android/tests/*

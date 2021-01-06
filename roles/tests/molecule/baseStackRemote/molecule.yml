@@ -4,7 +4,7 @@ dependency:
 driver:
   name: delegated
 platforms:
-  - name: anka-instance
+  - name: instance
 provisioner:
   name: ansible
   lint:
@@ -19,7 +19,7 @@ provisioner:
       pipelining: true
   inventory:
     host_vars:
-      anka-instance:
+      instance:
         param_user: vagrant
         ansible_ssh_pass: vagrant
         ansible_ssh_private_key_file: ~/vagrant_key

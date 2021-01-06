@@ -2,13 +2,18 @@
 dependency:
   name: galaxy
 driver:
-  name: delegated
+  name: docker
 platforms:
   - name: instance
+    image: molecule-test
+    dockerfile: ../Dockerfile.j2
 provisioner:
   name: ansible
   lint:
     name: ansible-lint
+  env:
+    IS_CI: "true"
+    HOMEBREW_NO_AUTO_UPDATE: 1
   log: true
   config_options:
     defaults:
@@ -16,12 +21,10 @@ provisioner:
   inventory:
     host_vars:
       instance:
-        ansible_user: ansible
-        ansible_ssh_pass: vagrant
-  playbooks:
-    create: ${MOLECULE_CREATE_PLAYBOOK:-"../common-playbooks/create.anka.yml"}
-    destroy: ${MOLECULE_DESTROY_PLAYBOOK:-"../common-playbooks/destroy.anka.yml"}
+        param_user: linuxbrew
+        param_group: linuxbrew
 verifier:
   name: testinfra
+  s: true
   additional_files_or_dirs:
-    - ../../../../brew-repos-fix/tests/*
+    - ../../../../go/tests/*
