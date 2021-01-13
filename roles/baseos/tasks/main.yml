@@ -91,7 +91,7 @@
 
 - name: Turn on Auto Login for {{ param_user }}
   become: true
-  shell: defaults write /Library/Preferences/com.apple.loginwindow.plist autoLoginUser autoLoginUser "{{ param_user }}"
+  shell: defaults write /Library/Preferences/com.apple.loginwindow.plist autoLoginUser "{{ param_user }}"
   when: autologinuser_state.rc == 1
 
 - name: Check if hibernate is disabled
