@@ -1,9 +1,10 @@
 ---
 # Cleaning up non Xamarin installed sdks and ndks
 - name: Remove brew android-sdk
-  homebrew_cask:
+  homebrew:
     name: android-sdk
     state: absent
+    install_options: cask
   ignore_errors: true
 
 - name: Remove manually installed android ndk
