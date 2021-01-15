@@ -8,8 +8,5 @@
   any_errors_fatal: true
   vars:
     - param_user: vagrant
-    - XCODE_INSTALL_USER: <XXXX>
-    - XCODE_INSTALL_PASSWORD: <XXXX>
   roles:
-    - role: profiles
-    - role: install-simulators
+    - role: baseos

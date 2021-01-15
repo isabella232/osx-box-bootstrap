@@ -6,5 +6,11 @@
 - hosts: all
   become_method: sudo
   any_errors_fatal: true
+  vars:
+    - param_user: vagrant
   roles:
-    - role: baseos
+    - role: profiles
+    - role: brew
+    - role: brew-repos-fix
+    - role: tmp-setup
+    - role: ruby

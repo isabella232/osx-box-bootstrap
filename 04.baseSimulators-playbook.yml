@@ -1,0 +1,15 @@
+---
+#
+# Ansible playbook to prepare a Bitrise OS X VM/box, used through vagrant
+#
+
+- hosts: all
+  become_method: sudo
+  any_errors_fatal: true
+  vars:
+    - param_user: vagrant
+    - XCODE_INSTALL_USER: # define this
+    - XCODE_INSTALL_PASSWORD: # define this
+  roles:
+    - role: profiles
+    - role: simulators

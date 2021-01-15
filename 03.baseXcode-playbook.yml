@@ -8,12 +8,10 @@
   any_errors_fatal: true
   vars:
     - param_user: vagrant
-    - XCODE_INSTALL_USER: <XXXX>
-    - XCODE_INSTALL_PASSWORD: <XXXX>
+    - XCODE_INSTALL_USER: # define this
+    - XCODE_INSTALL_PASSWORD: # define this
   roles:
     - role: profiles
     - role: brew
     - role: brew-repos-fix
-    - role: tmp-setup
-    - role: ruby
-    - role: install-xcode
+    - role: xcode

@@ -15,26 +15,13 @@
   roles:
     - role: profiles
     - role: certs
-    - role: brew
-    - role: brew-repos-fix
-    - role: go
-    - role: bitrise-cli
-    - role: bitrise-den
-    - role: remote-access
     - role: java
     - role: jenv
     - role: android
     - role: android-apk-tools
+    # needed for vs4Mac only
     - role: xamarin
       when: is_allow_weekly_xamarin_provision | default("no") | string  == "yes"
     - role: java-tools
       tags: java-android
     - role: flutter
-    - role: ssh-setup
-    - role: intermediate-setup
-    - role: xcode-setup
-    - role: cmd-bridge
-    - role: misc-setup
-    - role: node
-    - role: ruby-gems
-    - role: weekly-update-shared
