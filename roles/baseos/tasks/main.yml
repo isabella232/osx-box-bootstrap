@@ -1,4 +1,11 @@
 ---
+- name: Let {{ param_user }} to execute sudo commands without password
+  become: true
+  copy:
+    content: '{{ param_user }} ALL=(ALL) NOPASSWD:ALL'
+    dest: /etc/sudoers.d/{{ param_user }}
+    mode: 0440
+
 - name: Check if auto updates are disabled
   become: true
   shell: softwareupdate --schedule | grep -q 'off'
